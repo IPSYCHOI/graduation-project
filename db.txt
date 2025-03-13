@@ -1,2 +1,0 @@
-username = psycho
-pass = psycho.psycho
