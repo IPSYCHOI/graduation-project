@@ -8,7 +8,11 @@ const userSchema=new Schema({
         required:true
     },
     questions:[
-
+        {
+            type:Schema.Types.ObjectId,
+            ref:"question",
+            required:false
+        }
     ]
 })
 module.exports=mongoose.model("User",userSchema)
