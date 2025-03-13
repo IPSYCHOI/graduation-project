@@ -1,8 +1,10 @@
+require("dotenv").config()
+
 const express = require("express")
 
 const app =express()
 
-require("dotenv").config()
+const {errorHandler}=require("./middlewares/errorHandelr")
 
 const bodyBarser=require("body-parser")
 
@@ -17,3 +19,4 @@ dbconnect()
 .then(()=>{
     app.listen(process.env.PORT,() => console.log("🚀 Server running on port 80"))
 })
+app.use(errorHandler)
