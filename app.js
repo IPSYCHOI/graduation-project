@@ -16,6 +16,8 @@ const authRouters=require("./routes/auth")
 
 const questionRouters=require("./routes/questions")
 
+const answerRouters=require("./routes/answers")
+
 app.use(cookieParser())
 
 app.use(bodyBarser.json())
@@ -23,6 +25,8 @@ app.use(bodyBarser.json())
 app.use("/auth",authRouters)
 
 app.use("/question",questionRouters)
+
+app.use("/answer",answerRouters)
 
 dbconnect()
 .then(()=>{
