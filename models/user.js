@@ -10,7 +10,7 @@ const userSchema=new Schema({
     questions:[
         {
             type:Schema.Types.ObjectId,
-            ref:"question",
+            ref:"Question",
             required:false
         }
     ]
