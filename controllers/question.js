@@ -24,4 +24,28 @@ const add=(req,res,next)=>{
         next(err)
     })
 }
+const getAll=(req,res,next)=>{
+    const currentPage= req.query.page
+    const perPage=2
+    let totalQuestions
+    Question.countDocuments()
+    .then(count=>{
+        totalQuestions=count
+        return Question.find()
+        .populate("userId")
+        .skip((currentPage-1)*perPage)
+        .limit(perPage)
+    })
+    .then(questions=>{
+        res.status(200).json({
+            message:"Fetched questions successfully!",
+            questions,
+            totalQuestions
+        })
+    })
+    .catch(err=>{
+        next(err)
+    })
+}
 exports.add=add
+exports.getAll=getAll
