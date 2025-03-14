@@ -11,15 +11,7 @@ const questionSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref:"User",
         required:true
-    },
-    answer:[
-        {
-            type:Schema.Types.ObjectId,
-            ref:"Answer",
-            required:false           
-        }
-    ]
-
+    }
 },
 {
     timestamps:true

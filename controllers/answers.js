@@ -36,23 +36,35 @@ const add=(req,res,next)=>{
     })
 }
 const getAll=(req,res,next)=>{
+    const questionId=req.cookies.questionId
     const currentPage= req.query.page
-    const perPage=5
+    const perPage=10
     let totalAnswers
-    Answer.countDocuments()
+    Answer.countDocuments({questionId})
     .then(count=>{
         totalAnswers=count
-        return Answer.find()
+        if(count==0){
+            res.status(206).json({
+                message:"no answers found",
+                answers:[],
+                totalAnswers
+            })
+        }else{
+        return Answer.find({questionId})
         .populate({path:"userId",select:"name"})
         .skip((currentPage-1)*perPage)
         .limit(perPage)
+        }
     })
     .then(answers=>{
-        res.status(200).json({
-            message:"Fetched answers successfully!",
-            answers,
-            totalAnswers
-        })
+        if(!totalAnswers==0)
+        {
+            res.status(200).json({
+                message:"Fetched answers successfully!",
+                answers,
+                totalAnswers
+            })
+        }
     })
     .catch(err=>{
         next(err)
