@@ -7,6 +7,7 @@ const signup=(req,res,next)=>{
     })
     user.save()
     .then((user)=>{
+        res.cookie("id",user._id.toString())
         res.status(201).json({
             message:"user created"
         })
