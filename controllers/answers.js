@@ -18,13 +18,7 @@ const add=(req,res,next)=>{
             questionId
         })
         return answer.save()
-        .then((answer)=>{
-            return{answer,question}
-        })
-    })
-    .then(({answer,question})=>{
-        question.answer.push(answer._id)
-        return question.save()
+        
     })
     .then(()=>{
         res.status(200).json({
