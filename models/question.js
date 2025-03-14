@@ -7,10 +7,15 @@ const questionSchema=new Schema({
         type:String,
         required:true,
     },
+    userId:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    },
     answer:[
         {
             type:Schema.Types.ObjectId,
-            ref:"answer",
+            ref:"Answer",
             required:false           
         }
     ]
@@ -19,3 +24,4 @@ const questionSchema=new Schema({
 {
     timestamps:true
 })
+module.exports=mongoose.model("Question",questionSchema)
