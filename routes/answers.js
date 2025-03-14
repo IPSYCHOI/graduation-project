@@ -6,4 +6,6 @@ const answersController=require("../controllers/answers")
 
 router.post("/add",answersController.add)
 
+router.get("/all",answersController.getAll)
+
 module.exports=router
