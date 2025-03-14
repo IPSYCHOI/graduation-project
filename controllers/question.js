@@ -26,7 +26,7 @@ const add=(req,res,next)=>{
 }
 const getAll=(req,res,next)=>{
     const currentPage= req.query.page
-    const perPage=2
+    const perPage=10
     let totalQuestions
     Question.countDocuments()
     .then(count=>{
