@@ -5,7 +5,7 @@ const Schema=mongoose.Schema
 const answerSchema=new Schema({
     body:{
         type:String,
-        required:false,
+        required:true,
     },
     userId:{
         type:Schema.Types.ObjectId,
