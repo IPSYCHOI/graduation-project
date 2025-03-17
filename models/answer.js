@@ -8,8 +8,7 @@ const answerSchema=new Schema({
         required:true,
     },
     userId:{
-        type:Schema.Types.ObjectId,
-        ref:"User",
+        type:Number,
         required:true
     },
     questionId:{

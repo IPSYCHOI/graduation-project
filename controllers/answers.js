@@ -1,4 +1,3 @@
-const answer = require("../models/answer")
 const Answer=require("../models/answer")
 const Question=require("../models/question")
 const add=(req,res,next)=>{
@@ -18,7 +17,14 @@ const add=(req,res,next)=>{
             questionId
         })
         return answer.save()
+        .then((answer)=>{
+            return{answer,question}
+        })
         
+    })
+    .then(({answer,question})=>{
+        question.answers.push(answer._id)
+        return question.save()
     })
     .then(()=>{
         res.status(200).json({
@@ -44,18 +50,18 @@ const getAll=(req,res,next)=>{
                 totalAnswers
             })
         }else{
-        return Answer.find({questionId})
-        .populate({path:"userId",select:"name"})
+        return Question.findById(questionId)
+        .populate("answers")
         .skip((currentPage-1)*perPage)
         .limit(perPage)
         }
     })
-    .then(answers=>{
+    .then((question)=>{
         if(!totalAnswers==0)
         {
             res.status(200).json({
                 message:"Fetched answers successfully!",
-                answers,
+                question,
                 totalAnswers
             })
         }

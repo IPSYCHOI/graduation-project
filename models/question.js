@@ -8,10 +8,16 @@ const questionSchema=new Schema({
         required:true,
     },
     userId:{
-        type:Schema.Types.ObjectId,
-        ref:"User",
+        type:Number,
         required:true
-    }
+    },
+    answers:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"Answer",
+            required:false
+        }
+    ]
 },
 {
     timestamps:true
