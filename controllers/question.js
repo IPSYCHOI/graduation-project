@@ -1,5 +1,4 @@
 const Question=require("../models/question")
-const User=require("../models/user")
 const add=(req,res,next)=>{
     const body=req.body.body
     const id = req.apiData.data.id
@@ -25,6 +24,7 @@ const getAll=(req,res,next)=>{
     .then(count=>{
         totalQuestions=count
         return Question.find()
+        .populate({path:"answers",select:"body"})
         .skip((currentPage-1)*perPage)
         .limit(perPage)
     })

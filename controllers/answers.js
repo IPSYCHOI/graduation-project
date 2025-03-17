@@ -2,8 +2,8 @@ const Answer=require("../models/answer")
 const Question=require("../models/question")
 const add=(req,res,next)=>{
     const body=req.body.body
-    const questionId=req.cookies.questionId
-    const userId=req.cookies.id
+    const questionId=req.params.questionId
+    const userId=req.apiData.data.id
     Question.findById(questionId)
     .then(question=>{
         if(!question){
@@ -35,8 +35,8 @@ const add=(req,res,next)=>{
         next(err)
     })
 }
-const getAll=(req,res,next)=>{
-    const questionId=req.cookies.questionId
+const getQuestion=(req,res,next)=>{
+    const questionId=req.params.questionId
     const currentPage= req.query.page
     const perPage=10
     let totalAnswers
@@ -71,4 +71,4 @@ const getAll=(req,res,next)=>{
     })
 }
 exports.add=add
-exports.getAll=getAll
+exports.getQuestion=getQuestion
