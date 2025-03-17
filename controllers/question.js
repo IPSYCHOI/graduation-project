@@ -25,7 +25,6 @@ const getAll=(req,res,next)=>{
     .then(count=>{
         totalQuestions=count
         return Question.find()
-        .populate({path:"userId",select:"name"})
         .skip((currentPage-1)*perPage)
         .limit(perPage)
     })
