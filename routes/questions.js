@@ -14,5 +14,6 @@ router.post("/add",api,questionController.add)
 router.get("/",auth,questionController.getAll)
 router.get("/:questionId",auth,answersController.getQuestion)
 router.post("/addanswer/:questionId",api,answersController.add)
+router.delete("/delquestion/:questionId",api,questionController.deletequestion)
 
 module.exports=router
