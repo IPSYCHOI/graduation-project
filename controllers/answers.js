@@ -70,5 +70,33 @@ const getQuestion=(req,res,next)=>{
         next(err)
     })
 }
+const deleteanswer=(req,res,next)=>{
+    const answerId=req.params.answerId
+    const userId=req.apiData.data.id
+    Answer.findById(answerId)
+    .then((answer)=>{
+        if(answer.userId!==userId){
+            const error= new Error("You are not Authorized")
+            error.status=403
+            throw error
+        }
+        if(!answer){
+            const error= new Error("No question found")
+            error.status=404
+            throw error
+        }
+        
+        return Answer.findByIdAndDelete(answerId)
+    })
+    .then(()=>{
+        res.status(200).json({
+            message:"Answer deleted successfully!"
+        })
+    })
+    .catch(err=>{
+        next(err)
+    })
+}
 exports.add=add
 exports.getQuestion=getQuestion
+exports.deleteanswer=deleteanswer
