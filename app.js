@@ -12,21 +12,13 @@ const cookieParser = require("cookie-parser");
 
 const {dbconnect}=require("./config/dbconnect")
 
-const authRouters=require("./routes/auth")
-
 const questionRouters=require("./routes/questions")
-
-const answerRouters=require("./routes/answers")
 
 app.use(cookieParser())
 
 app.use(bodyBarser.json())
 
-app.use("/auth",authRouters)
-
-app.use("/question",questionRouters)
-
-app.use("/answer",answerRouters)
+app.use("/questions",questionRouters)
 
 dbconnect()
 .then(()=>{
