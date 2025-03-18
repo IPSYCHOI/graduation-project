@@ -39,6 +39,7 @@ const getQuestion=(req,res,next)=>{
     const questionId=req.params.questionId
     const currentPage= req.query.page
     const perPage=10
+    const userId=req.apiData.data.id
     let totalAnswers
     Answer.countDocuments({questionId})
     .then(count=>{
@@ -59,12 +60,22 @@ const getQuestion=(req,res,next)=>{
     .then((question)=>{
         if(!totalAnswers==0)
         {
-            res.status(200).json({
-                message:"Fetched answers successfully!",
-                question,
-                totalAnswers
-            })
+            const viewIndex=question.views.indexOf(userId)
+            if(viewIndex=== -1){
+                question.views.push(userId)
+                return question.save()
+            }else{
+                return question
+            }
+            
         }
+    })
+    .then((question)=>{
+        res.status(200).json({
+            message:"Fetched answers successfully!",
+            question,
+            totalAnswers
+        })
     })
     .catch(err=>{
         next(err)
