@@ -100,6 +100,39 @@ const deleteanswer=(req,res,next)=>{
         next(err)
     })
 }
+const like=(req,res,next)=>{
+    const answerId=req.params.answerId
+    const userId=req.apiData.data.id
+    Question.findById(answerId)
+    .then((answer)=>{
+        if(!answer){
+            const error= new Error("No answer found")
+            error.status=404
+            throw error
+        }
+        const likeIndex=answer.likes.indexOf(userId)
+        let message
+        if(likeIndex=== -1){
+            answer.likes.push(userId)
+            message="like added"
+        }else{
+            answer.likes.splice(likeIndex,1)
+            message="like deleted"
+        }
+        answer.save()
+        .then(()=>{
+            const likes=answer.likes.length
+            res.status(200).json({
+                message,
+                likes
+            })
+        })
+    })
+    .catch(err=>{
+        next(err)
+    })
+}
 exports.add=add
+exports.like=like
 exports.getQuestion=getQuestion
 exports.deleteanswer=deleteanswer
