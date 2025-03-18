@@ -16,5 +16,7 @@ router.get("/:questionId",auth,answersController.getQuestion)
 router.post("/addanswer/:questionId",api,answersController.add)
 router.delete("/delquestion/:questionId",api,questionController.deletequestion)
 router.delete("/delanswer/:answerId",api,answersController.deleteanswer)
+router.post("/qlike/:questionId",api,questionController.like)
+router.post("/alike/:answerId",api,answersController.like)
 
 module.exports=router

@@ -15,7 +15,8 @@ const answerSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref:"Question",
         required:true
-    }
+    },
+    likes:[Number]
 },
 {
     timestamps:true
