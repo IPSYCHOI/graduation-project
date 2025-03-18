@@ -73,12 +73,15 @@ const getQuestion=(req,res,next)=>{
 const deleteanswer=(req,res,next)=>{
     const answerId=req.params.answerId
     const userId=req.apiData.data.id
+    const role=req.apiData.data.type
     Answer.findById(answerId)
     .then((answer)=>{
-        if(answer.userId!==userId){
-            const error= new Error("You are not Authorized")
-            error.status=403
-            throw error
+        if(role==="Student"){
+            if(answer.userId!==userId){
+                const error= new Error("You are not Authorized")
+                error.status=403
+                throw error
+            }
         }
         if(!answer){
             const error= new Error("No question found")
