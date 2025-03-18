@@ -3,7 +3,10 @@ const Question=require("../models/question")
 const add=(req,res,next)=>{
     const body=req.body.body
     const questionId=req.params.questionId
-    const userId=req.apiData.data.id
+    const id=req.apiData.data.id
+    const avatar=req.apiData.data.avatar
+    const semester=req.apiData.data.semester
+    const name=req.apiData.data.name
     Question.findById(questionId)
     .then(question=>{
         if(!question){
@@ -13,8 +16,14 @@ const add=(req,res,next)=>{
         }
         const answer=new Answer({
             body,
-            userId,
-            questionId
+            user:{
+                id,
+                name,
+                avatar,
+                semester
+            },
+            questionId,
+            
         })
         return answer.save()
         .then((answer)=>{
@@ -45,35 +54,60 @@ const getQuestion=(req,res,next)=>{
     .then(count=>{
         totalAnswers=count
         if(count==0){
-            res.status(206).json({
+            return res.status(206).json({
                 message:"no answers found",
-                answers:[],
+                data:[],
                 totalAnswers
             })
         }else{
-        return Question.findById(questionId)
-        .populate("answers")
-        .skip((currentPage-1)*perPage)
-        .limit(perPage)
+            return Question.findById(questionId)
+            .populate({
+                path:"answers",
+                options:{
+                    sort:{createdAt:-1},
+                    skip:(currentPage-1)*perPage,
+                    limit:perPage
+                }
+            })
         }
     })
     .then((question)=>{
-        if(!totalAnswers==0)
-        {
-            const viewIndex=question.views.indexOf(userId)
-            if(viewIndex=== -1){
-                question.views.push(userId)
-                return question.save()
-            }else{
-                return question
-            }
+        const viewIndex=question.views.indexOf(userId)
+        if(viewIndex === -1){
+            question.views.push(userId)
+            return question.save()
+        }else{
+            return question
+        }
+    })
+    .then((question)=>{
+        const formatedQuestion={
+            question:{
+                _id:question._id,
+                body:question.body,
+                user:{
+                    name:question.user.name,
+                    avatar:question.user.avatar,
+                    semester:question.user.semester
+                },
+                createdAt:question.createdAt
+            },
+            answers:question.answers.map(a=>({
+                _id:a._id,
+                body:a.body,
+                likes:a.likes.length,
+                user:{
+                    name:a.user.name,
+                    avatar:a.user.avatar,
+                    semester:a.user.semester
+                },
+                createdAt:a.createdAt
+            }))
             
         }
-    })
-    .then((question)=>{
         res.status(200).json({
             message:"Fetched answers successfully!",
-            question,
+            data:formatedQuestion,
             totalAnswers
         })
     })
@@ -88,7 +122,7 @@ const deleteanswer=(req,res,next)=>{
     Answer.findById(answerId)
     .then((answer)=>{
         if(role==="Student"){
-            if(answer.userId!==userId){
+            if(answer.user.id!==userId){
                 const error= new Error("You are not Authorized")
                 error.status=403
                 throw error

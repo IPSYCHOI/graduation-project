@@ -7,9 +7,21 @@ const questionSchema=new Schema({
         type:String,
         required:true,
     },
-    userId:{
-        type:Number,
-        required:true
+    user:{
+        id:{
+            type:Number,
+            required:true
+        },
+        name:{
+            type:String,
+            required:true
+        },
+        avatar:{
+            type:String
+        },
+        semester:{
+            type:Number
+        }
     },
     answers:[
         {
@@ -18,8 +30,7 @@ const questionSchema=new Schema({
         }
     ],
     likes:[Number],
-    views:[Number]
-    
+    views:[Number],
 },
 {
     timestamps:true
