@@ -12,7 +12,7 @@ const answersController=require("../controllers/answers")
 
 router.post("/add",api,questionController.add)
 router.get("/",auth,questionController.getAll)
-router.get("/:questionId",auth,answersController.getQuestion)
+router.get("/:questionId",api,answersController.getQuestion)
 router.post("/addanswer/:questionId",api,answersController.add)
 router.delete("/delquestion/:questionId",api,questionController.deletequestion)
 router.delete("/delanswer/:answerId",api,answersController.deleteanswer)

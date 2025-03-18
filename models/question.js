@@ -17,7 +17,8 @@ const questionSchema=new Schema({
             ref:"Answer",
         }
     ],
-    likes:[Number]
+    likes:[Number],
+    views:[Number]
     
 },
 {
