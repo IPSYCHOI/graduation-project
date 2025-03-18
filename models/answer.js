@@ -7,16 +7,28 @@ const answerSchema=new Schema({
         type:String,
         required:true,
     },
-    userId:{
-        type:Number,
-        required:true
+    user:{
+        id:{
+            type:Number,
+            required:true
+        },
+        name:{
+            type:String,
+            required:true
+        },
+        avatar:{
+            type:String
+        },
+        semester:{
+            type:Number
+        }
     },
     questionId:{
         type:Schema.Types.ObjectId,
         ref:"Question",
         required:true
     },
-    likes:[Number]
+    likes:[Number],
 },
 {
     timestamps:true

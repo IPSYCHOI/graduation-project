@@ -2,9 +2,17 @@ const Question=require("../models/question")
 const add=(req,res,next)=>{
     const body=req.body.body
     const id = req.apiData.data.id
+    const avatar=req.apiData.data.avatar
+    const semester=req.apiData.data.semester
+    const name=req.apiData.data.name
     const question=new Question({
         body,
-        userId:id
+        user:{
+            id,
+            name,
+            avatar,
+            semester
+        }
     })
     question.save()
     .then(()=>{
@@ -23,15 +31,38 @@ const getAll=(req,res,next)=>{
     Question.countDocuments()
     .then(count=>{
         totalQuestions=count
-        return Question.find()
-        .populate({path:"answers",select:"body"})
-        .skip((currentPage-1)*perPage)
-        .limit(perPage)
+        return Question.aggregate([
+            {
+                $addFields:{likesCount:{$size:"$likes"}}
+            },
+            {
+                $sort:{likesCount: -1}
+            },
+            {
+                $skip:(currentPage-1)*perPage
+            },
+            {
+                $limit:perPage
+            }
+        ])
     })
     .then(questions=>{
+        const formatedQuestion=questions.map(q=>({
+            _id:q._id,
+            body:q.body,
+            answers:q.answers.length,
+            likes:q.likes.length,
+            views:q.views.length,
+            user:{
+                name:q.user.name,
+                avatar:q.user.avatar,
+                semester:q.user.semester
+            },
+            createdAt:q.createdAt,
+        }))
         res.status(200).json({
             message:"Fetched questions successfully!",
-            questions,
+            questions:formatedQuestion,
             totalQuestions
         })
     })
@@ -46,7 +77,7 @@ const deletequestion=(req,res,next)=>{
     Question.findById(questionId)
     .then((question)=>{
         if(role==="Student"){
-            if(question.userId!==userId){
+            if(question.user.id!==userId){
                 const error= new Error("You are not Authorized")
                 error.status=403
                 throw error
