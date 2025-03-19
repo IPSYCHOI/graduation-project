@@ -21,6 +21,12 @@ const questionSchema=new Schema({
         },
         semester:{
             type:Number
+        },
+        department:{
+            type:String
+        },
+        liked:{
+            type:Boolean
         }
     },
     answers:[
@@ -35,4 +41,5 @@ const questionSchema=new Schema({
 {
     timestamps:true
 })
+questionSchema.index({ body: "text" });
 module.exports=mongoose.model("Question",questionSchema)

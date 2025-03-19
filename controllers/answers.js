@@ -7,6 +7,7 @@ const add=(req,res,next)=>{
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester
     const name=req.apiData.data.name
+    const department=req.apiData.data.department_name
     Question.findById(questionId)
     .then(question=>{
         if(!question){
@@ -20,7 +21,8 @@ const add=(req,res,next)=>{
                 id,
                 name,
                 avatar,
-                semester
+                semester,
+                department
             },
             questionId,
             
@@ -49,6 +51,7 @@ const getQuestion=(req,res,next)=>{
     const currentPage= req.query.page
     const perPage=10
     const userId=req.apiData.data.id
+    let index
     let totalAnswers
     Answer.countDocuments({questionId})
     .then(count=>{
@@ -64,7 +67,6 @@ const getQuestion=(req,res,next)=>{
             .populate({
                 path:"answers",
                 options:{
-                    sort:{createdAt:-1},
                     skip:(currentPage-1)*perPage,
                     limit:perPage
                 }
@@ -81,6 +83,17 @@ const getQuestion=(req,res,next)=>{
         }
     })
     .then((question)=>{
+        question.answers.map(a=>{
+            index=a.likes.indexOf(userId)
+            if(index!== -1){
+                a.user.liked=true
+            }else{
+                a.user.liked=false
+            } 
+        })
+        return question
+    })
+    .then((question)=>{
         const formatedQuestion={
             question:{
                 _id:question._id,
@@ -88,7 +101,8 @@ const getQuestion=(req,res,next)=>{
                 user:{
                     name:question.user.name,
                     avatar:question.user.avatar,
-                    semester:question.user.semester
+                    semester:question.user.semester,
+                    department:question.user.department,
                 },
                 createdAt:question.createdAt
             },
@@ -99,7 +113,9 @@ const getQuestion=(req,res,next)=>{
                 user:{
                     name:a.user.name,
                     avatar:a.user.avatar,
-                    semester:a.user.semester
+                    semester:a.user.semester,
+                    department:a.user.department,
+                    liked:a.user.liked
                 },
                 createdAt:a.createdAt
             }))
@@ -148,7 +164,7 @@ const deleteanswer=(req,res,next)=>{
 const like=(req,res,next)=>{
     const answerId=req.params.answerId
     const userId=req.apiData.data.id
-    Question.findById(answerId)
+    Answer.findById(answerId)
     .then((answer)=>{
         if(!answer){
             const error= new Error("No answer found")
@@ -159,10 +175,12 @@ const like=(req,res,next)=>{
         let message
         if(likeIndex=== -1){
             answer.likes.push(userId)
+            answer.user.liked=true
             message="like added"
         }else{
             answer.likes.splice(likeIndex,1)
             message="like deleted"
+            answer.user.liked=false
         }
         answer.save()
         .then(()=>{
