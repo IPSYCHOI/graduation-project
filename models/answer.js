@@ -21,6 +21,12 @@ const answerSchema=new Schema({
         },
         semester:{
             type:Number
+        },
+        department:{
+            type:String
+        },
+        liked:{
+            type:Boolean
         }
     },
     questionId:{

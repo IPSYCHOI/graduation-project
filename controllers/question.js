@@ -5,13 +5,15 @@ const add=(req,res,next)=>{
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester
     const name=req.apiData.data.name
+    const department=req.apiData.data.department_name
     const question=new Question({
         body,
         user:{
             id,
             name,
             avatar,
-            semester
+            semester,
+            department
         }
     })
     question.save()
@@ -27,11 +29,28 @@ const add=(req,res,next)=>{
 const getAll=(req,res,next)=>{
     const currentPage= req.query.page
     const perPage=10
+    const userId=req.apiData.data.id
     let totalQuestions
+    let index
+    const { department, semester ,likes,search} = req.query
+    let filter={}
+    if(department){
+        filter["user.department"]=department
+    }
+    if(semester){
+        filter["user.semester"]=parseInt(semester)
+    }
+    if(search){
+        filter["$text"]={$search:search}
+    }
+    console.log(JSON.stringify(filter))
     Question.countDocuments()
     .then(count=>{
         totalQuestions=count
         return Question.aggregate([
+            {
+                $match:filter
+            },
             {
                 $addFields:{likesCount:{$size:"$likes"}}
             },
@@ -46,6 +65,28 @@ const getAll=(req,res,next)=>{
             }
         ])
     })
+    .then((questions)=>{
+        questions.map(q=>{
+            index=q.likes.indexOf(userId)
+            if(index!== -1){
+                q.user.liked=true
+            }else{
+                q.user.liked=false
+            }
+        })
+        if(likes){
+            if(likes=="true"){
+                questions= questions.filter(q=>(q.user.liked===true))
+                totalQuestions=questions.length
+                return questions
+            }else{
+                const error=new Error("Invalid value for 'likes'. Expected 'true' or omit the query parameter.")
+                error.status=400
+                throw error
+            }
+        }
+        return questions
+    })
     .then(questions=>{
         const formatedQuestion=questions.map(q=>({
             _id:q._id,
@@ -56,7 +97,9 @@ const getAll=(req,res,next)=>{
             user:{
                 name:q.user.name,
                 avatar:q.user.avatar,
-                semester:q.user.semester
+                semester:q.user.semester,
+                department:q.user.department,
+                liked:q.user.liked
             },
             createdAt:q.createdAt,
         }))
