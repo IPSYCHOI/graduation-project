@@ -43,8 +43,7 @@ const getAll=(req,res,next)=>{
     if(search){
         filter["$text"]={$search:search}
     }
-    console.log(JSON.stringify(filter))
-    Question.countDocuments()
+    Question.countDocuments(filter)
     .then(count=>{
         totalQuestions=count
         return Question.aggregate([
