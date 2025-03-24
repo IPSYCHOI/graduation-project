@@ -27,7 +27,7 @@ const add=(req,res,next)=>{
     })
 }
 const getAll=(req,res,next)=>{
-    const currentPage= req.query.page
+    const currentPage= req.query.page || 1
     const perPage=10
     const userId=req.apiData.data.id
     let totalQuestions
