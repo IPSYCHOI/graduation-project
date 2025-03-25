@@ -26,6 +26,6 @@ app.use("/questions",questionRouters)
 
 dbconnect()
 .then(()=>{
-    app.listen(process.env.PORT,() => console.log("🚀 Server running on port 80 of a7"))
+    app.listen(process.env.PORT,() => console.log("🚀 Server running on port 80 of alo"))
 })
 app.use(errorHandler)
