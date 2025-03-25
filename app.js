@@ -14,9 +14,13 @@ const {dbconnect}=require("./config/dbconnect")
 
 const questionRouters=require("./routes/questions")
 
+const {cors}=require("./middlewares/cors")
+
 app.use(cookieParser())
 
 app.use(bodyBarser.json())
+
+app.use(cors)
 
 app.use("/questions",questionRouters)
 
