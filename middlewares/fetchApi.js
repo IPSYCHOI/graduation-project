@@ -1,7 +1,7 @@
 require("dotenv").config()
 const api=(req,res,next)=>{
     const token = req.get("Authorization")
-    fetch("https://nextgenedu-database.azurewebsites.net/api/node/user",{
+    fetch(`${process.env.LARAVELAPI}`,{
         method:"get",
         headers:{
             "Authorization": `${token}`,
