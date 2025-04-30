@@ -1,15 +1,16 @@
 require("dotenv").config()
 const api=(req,res,next)=>{
     const token = req.get("Authorization")
-    fetch(`${process.env.LARAVELAPI}`,{
+    fetch("https://nextgenedu-database.azurewebsites.net/api/node/user",{
         method:"get",
         headers:{
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `${token}`,
             "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
         }
     })
     .then((response)=>{
-        if (!response.ok) {
+        if (!response) {
             const error= new Error(`HTTP Error!`);
             error.status=500
             throw error
@@ -17,6 +18,12 @@ const api=(req,res,next)=>{
         return response.json()
     })
     .then(data=>{
+        if(!(data.code==200)){
+            const error= new Error(data.message);
+            error.status=data.code
+            throw error
+        }
+        
         req.apiData=data
         next()
     })

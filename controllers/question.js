@@ -3,9 +3,9 @@ const add=(req,res,next)=>{
     const body=req.body.body
     const id = req.apiData.data.id
     const avatar=req.apiData.data.avatar
-    const semester=req.apiData.data.semester
+    const semester=req.apiData.data.semester.id
     const name=req.apiData.data.name
-    const department=req.apiData.data.department_name
+    const department=req.apiData.data.department.name
     const question=new Question({
         body,
         user:{
