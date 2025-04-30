@@ -5,9 +5,9 @@ const add=(req,res,next)=>{
     const questionId=req.params.questionId
     const id=req.apiData.data.id
     const avatar=req.apiData.data.avatar
-    const semester=req.apiData.data.semester
+    const semester=req.apiData.data.semester.id
     const name=req.apiData.data.name
-    const department=req.apiData.data.department_name
+    const department=req.apiData.data.department.name
     Question.findById(questionId)
     .then(question=>{
         if(!question){
@@ -48,7 +48,7 @@ const add=(req,res,next)=>{
 }
 const getQuestion=(req,res,next)=>{
     const questionId=req.params.questionId
-    const currentPage= req.query.page
+    const currentPage= req.query.page || 1
     const perPage=10
     const userId=req.apiData.data.id
     let index
@@ -136,6 +136,7 @@ const deleteanswer=(req,res,next)=>{
     const userId=req.apiData.data.id
     const role=req.apiData.data.type
     Answer.findById(answerId)
+    //TODO: answer existents validation  
     .then((answer)=>{
         if(role==="Student"){
             if(answer.user.id!==userId){
@@ -144,12 +145,12 @@ const deleteanswer=(req,res,next)=>{
                 throw error
             }
         }
+        
         if(!answer){
-            const error= new Error("No question found")
+            const error= new Error("No answer found")
             error.status=404
             throw error
         }
-        
         return Answer.findByIdAndDelete(answerId)
     })
     .then(()=>{
