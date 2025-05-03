@@ -7,8 +7,20 @@ const chatSchema=new Schema({
         type:String,
         required:true
     },
+    year:{
+        type:Number,
+        required:true
+    },
+    department:{
+        type:Number,
+        required:true
+    },
+    imageUrl: {
+        type: String 
+    },
     users:[
-        {
+        {   
+            _id: false,
             userId:{
                 type:Number,
                 required:true
