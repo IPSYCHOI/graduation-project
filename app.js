@@ -24,7 +24,9 @@ const {cors}=require("./middlewares/cors")
 
 const server = http.createServer(app)
 
-const {socketsConf}=require("./config/sockets")
+const {socketsConf}=require("./socket/sockets")
+
+const {socketAuth}=require("./middlewares/socketAuth")
 
 const io = new Server(server, {
     cors: {
@@ -32,12 +34,13 @@ const io = new Server(server, {
       methods: ['GET', 'POST']
     }
 })
+io.use(socketAuth)
 
 socketsConf(io)
 
 app.use(cookieParser())
 
-app.use(bodyBarser.json())
+app.use(bodyBarser.json({limit:"10mb"}))
 
 app.use(cors)
 
