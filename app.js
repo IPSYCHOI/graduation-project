@@ -4,6 +4,10 @@ const express = require("express")
 
 const app =express()
 
+const http=require("http")
+
+const {Server}=require("socket.io")
+
 const {errorHandler}=require("./middlewares/errorHandelr")
 
 const bodyBarser=require("body-parser")
@@ -14,18 +18,38 @@ const {dbconnect}=require("./config/dbconnect")
 
 const questionRouters=require("./routes/questions")
 
+const chatRouters=require("./routes/chat")
+
 const {cors}=require("./middlewares/cors")
+
+const server = http.createServer(app)
+
+const {socketsConf}=require("./socket/sockets")
+
+const {socketAuth}=require("./middlewares/socketAuth")
+
+const io = new Server(server, {
+    cors: {
+      origin: '*',
+      methods: ['GET', 'POST']
+    }
+})
+io.use(socketAuth)
+
+socketsConf(io)
 
 app.use(cookieParser())
 
-app.use(bodyBarser.json())
+app.use(bodyBarser.json({limit:"10mb"}))
 
 app.use(cors)
 
+app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
 
 dbconnect()
+
 .then(()=>{
-    app.listen(process.env.PORT,() => console.log("🚀 Server running on port 443"))
+    server.listen(process.env.PORT,() => console.log("🚀 Server running on port 443"))
 })
 app.use(errorHandler)

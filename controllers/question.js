@@ -1,13 +1,20 @@
 const Question=require("../models/question")
-const add=(req,res,next)=>{
+const {storeImage}=require("../utils/storeImage")
+const add=async(req,res,next)=>{
     const body=req.body.body
+    const file=req.body.image
     const id = req.apiData.data.id
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester.id
     const name=req.apiData.data.name
     const department=req.apiData.data.department.name
+    let imageUrl
+    if(file){
+        imageUrl=await storeImage(file)
+    }
     const question=new Question({
         body,
+        imageUrl,
         user:{
             id,
             name,
@@ -90,6 +97,7 @@ const getAll=(req,res,next)=>{
         const formatedQuestion=questions.map(q=>({
             _id:q._id,
             body:q.body,
+            imageUrl:q.imageUrl,
             answers:q.answers.length,
             likes:q.likes.length,
             views:q.views.length,
