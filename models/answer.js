@@ -7,6 +7,9 @@ const answerSchema=new Schema({
         type:String,
         required:true,
     },
+    imageUrl:{
+        type:String,
+    },
     user:{
         id:{
             type:Number,

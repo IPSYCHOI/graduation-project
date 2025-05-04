@@ -1,22 +1,29 @@
 const Answer=require("../models/answer")
 const Question=require("../models/question")
-const add=(req,res,next)=>{
+const {storeImage}=require("../utils/storeImage")
+const add=async(req,res,next)=>{
     const body=req.body.body
+    const file=req.body.image
     const questionId=req.params.questionId
     const id=req.apiData.data.id
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester.id
     const name=req.apiData.data.name
     const department=req.apiData.data.department.name
+    let imageUrl
     Question.findById(questionId)
-    .then(question=>{
+    .then(async(question)=>{
         if(!question){
             const error= new Error("There is no question with that id")
             error.status=404
             throw error
         }
+        if(file){
+            imageUrl=await storeImage(file)
+        }
         const answer=new Answer({
             body,
+            imageUrl,
             user:{
                 id,
                 name,
@@ -98,6 +105,7 @@ const getQuestion=(req,res,next)=>{
             question:{
                 _id:question._id,
                 body:question.body,
+                imageUrl:question.imageUrl,
                 user:{
                     name:question.user.name,
                     avatar:question.user.avatar,
@@ -109,6 +117,7 @@ const getQuestion=(req,res,next)=>{
             answers:question.answers.map(a=>({
                 _id:a._id,
                 body:a.body,
+                imageUrl:a.imageUrl,
                 likes:a.likes.length,
                 user:{
                     name:a.user.name,
