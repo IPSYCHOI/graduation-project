@@ -13,7 +13,7 @@ exports.registerUser=async(socket)=>{
         socket.join(chat[0]._id.toString())
         socket.chatId=chat[0]._id.toString()
         console.log(`User ${userId} joined ${chat[0].name}`)
-    } catch (error) {
+    } catch (error) {   
         socket.emit("user-register-error",{
             message:error.message
         })
