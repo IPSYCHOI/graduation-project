@@ -41,13 +41,8 @@ exports.addStudent=async(req,res,next)=>{
 }   
 
 exports.getGroup=async(req,res,next)=>{
-    const semester=req.query.semester
-    const department=req.query.department
-    if(!(semester&&department)){
-        return res.status(400).json({
-            message:"All fields must be provided"
-        })
-    }
+    const semester=req.apiData.data.semester.id
+    const department=req.apiData.data.department.id
     const year=calc_year(semester)
     try {
         const chat=await Chat.findOne({year,department})
@@ -59,10 +54,31 @@ exports.getGroup=async(req,res,next)=>{
         res.status(200).json({
             message:"fetched successfully",
             data:{
-                id:chat._id,
                 name:chat.name,
                 imageurl:chat.imageUrl,
-                usersId:chat.users
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+exports.getGroupDetails=async(req,res,next)=>{
+    const semester=req.apiData.data.semester.id
+    const department=req.apiData.data.department.id
+    const year=calc_year(semester)
+    try {
+        const chat=await Chat.findOne({year,department})
+        if(!chat){
+            return res.status(404).json({
+                message:"There is no chat found"
+            })
+        }
+        res.status(200).json({
+            message:"fetched successfully",
+            data:{
+                name:chat.name,
+                imageurl:chat.imageUrl,
+                users:chat.users
             }
         })
     } catch (error) {
