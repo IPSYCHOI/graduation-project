@@ -11,7 +11,7 @@ const api=(req,res,next)=>{
     })
     .then((response)=>{
         if (!response) {
-            const error= new Error(`HTTP Error!`);
+            const error= new Error(`HTTP Error from gasser!`);
             error.status=500
             throw error
         }
@@ -19,7 +19,7 @@ const api=(req,res,next)=>{
     })
     .then(data=>{
         if(!(data.code==200)){
-            const error= new Error(data.message);
+            const error= new Error(`from gasser:${data.message}`);
             error.status=data.code
             throw error
         }
