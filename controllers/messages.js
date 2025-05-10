@@ -17,6 +17,7 @@ exports.getMessages=async(req,res,next)=>{
                 id:m._id,
                 senderId:m.senderId,
                 content:m.content,
+                status:m.status,
                 createdAt:m.createdAt
             }
         })
@@ -59,6 +60,7 @@ exports.getOldestMessages=async(req,res,next)=>{
                 id:m._id,
                 senderId:m.senderId,
                 content:m.content,
+                status:m.status,
                 createdAt:m.createdAt
             }
         })
