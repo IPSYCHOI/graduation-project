@@ -145,8 +145,12 @@ const deleteanswer=(req,res,next)=>{
     const userId=req.apiData.data.id
     const role=req.apiData.data.type
     Answer.findById(answerId)
-    //TODO: answer existents validation  
     .then((answer)=>{
+        if (!answer) {
+                const error = new Error("No answer found");
+                error.status = 404;
+                throw error;
+        }
         if(role==="Student"){
             if(answer.user.id!==userId){
                 const error= new Error("You are not Authorized")
@@ -155,12 +159,13 @@ const deleteanswer=(req,res,next)=>{
             }
         }
         
-        if(!answer){
-            const error= new Error("No answer found")
-            error.status=404
-            throw error
-        }
-        return Answer.findByIdAndDelete(answerId)
+        return Promise.all([
+            Answer.findByIdAndDelete(answerId),
+            Question.findByIdAndUpdate(
+                answer.questionId,
+                { $pull: { answers: answer._id } }
+            )
+        ])
     })
     .then(()=>{
         res.status(200).json({

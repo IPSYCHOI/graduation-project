@@ -1,3 +1,4 @@
+const Answer = require("../models/answer")
 const Question=require("../models/question")
 const {storeImage}=require("../utils/storeImage")
 const add=async(req,res,next)=>{
@@ -139,7 +140,10 @@ const deletequestion=(req,res,next)=>{
             throw error
         }
        
-        return Question.findByIdAndDelete(questionId)
+        return Promise.all([
+            Question.findByIdAndDelete(questionId),
+            Answer.deleteMany({questionId})
+        ])
     })
     .then(()=>{
         res.status(200).json({
