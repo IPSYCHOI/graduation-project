@@ -8,13 +8,13 @@ exports.socketsConf=(io)=>{
 
         console.log("connected")
 
-        socket.on("UserRegister",async()=>{await registerUser(socket)})
+        socket.on("User-Register",async()=>{await registerUser(socket)})
         
-        socket.on("sendMessage",async({text})=>{await sendmessage(socket,{text})})
+        socket.on("Send-Message",async({text})=>{await sendmessage(socket,{text})})
         
-        socket.on("message-delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
+        socket.on("Message-Delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
         
-        socket.on("message-seen",async({messageId})=>{await msgSeen (socket,{messageId})})
+        socket.on("Message-Seen",async({messageId})=>{await msgSeen (socket,{messageId})})
         
         socket.on("disconnect",()=>{
             console.log("disconnected")
