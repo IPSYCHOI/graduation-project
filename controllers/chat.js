@@ -51,12 +51,20 @@ exports.getGroup=async(req,res,next)=>{
                 message:"There is no chat found"
             })
         }
+        const chats=await Chat.find({department})
+        const mappedChats=chats.map(c=>{
+            return {
+                id:c._id,
+                name:c.name,
+                imageurl:c.imageUrl
+            }
+        })
         res.status(200).json({
             message:"fetched successfully",
-            data:{
-                name:chat.name,
-                imageurl:chat.imageUrl,
-            }
+            chatId:{
+                id:chat._id,
+            },
+            allDepartChats:mappedChats
         })
     } catch (error) {
         next(error)
