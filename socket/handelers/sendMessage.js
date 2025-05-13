@@ -13,8 +13,8 @@ exports.sendmessage=async(socket,{text})=>{
             content:text,
         })
         await message.save()
-        socket.to(chatId).emit("recieve-message",{text,messageId:message._id})
-        socket.emit("recieve-message",{text})
+        socket.to(chatId).emit("recieve-message",{message})
+        socket.emit("recieve-message",{message})
     } catch (error) {
         socket.emit("send-message-error",{
             message:error.message
