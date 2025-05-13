@@ -14,7 +14,7 @@ exports.registerUser=async(socket)=>{
         socket.chatId=chat[0]._id.toString()
         console.log(`User ${userId} joined ${chat[0].name}`)
         socket.emit("user-register-success",{
-            message:`registered successfully , User ${userId} joined ${chat[0].name}`,
+            message:`registered successfully , User ${userId} joined ${chat[0].name} , chatId ${socket.chatId}`,
         })
     } catch (error) {   
         socket.emit("user-register-error",{
