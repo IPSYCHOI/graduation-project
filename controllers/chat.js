@@ -2,13 +2,15 @@ const {calc_year}=require("../utils/calc_year")
 const Chat=require("../models/chat")
 
 exports.addStudent=async(req,res,next)=>{
-    const userId=req.body.id
-    const semester=req.body.semester
-    const department=req.body.department
+    const userId=req.apiData.data.id
+    const semester=req.apiData.data.semester.id
+    const department=req.apiData.data.department.id
+    const name = req.apiData.data.name
+    const avatar = req.apiData.data.avatar
     const type=req.body.type
-    if(!(userId&&semester&&department&&type)){
+    if(!(type)){
         return res.status(400).json({
-            message:"All fields must be provided"
+            message:"please provide type"
         })
     }
     const year=calc_year(semester)
@@ -16,13 +18,18 @@ exports.addStudent=async(req,res,next)=>{
     if(type==="Student"){
         userObject={
             userId,
+            name,
+            avatar
         }
     }else{
         userObject={
             userId,
+            name,
+            avatar,
             isAdmin:true
         }
     }
+    
     try {
         const chat= await Chat.findOne({year,department})
         if(!chat){

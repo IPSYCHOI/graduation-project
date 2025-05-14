@@ -25,6 +25,14 @@ const chatSchema=new Schema({
                 type:Number,
                 required:true
             },
+            name:{
+                type: String,
+                required:true
+            },
+            avatar:{
+                type: String,
+                required:true
+            },
             isAdmin:{
                 type:Boolean,
                 default:false

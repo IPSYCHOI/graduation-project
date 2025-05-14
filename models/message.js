@@ -9,9 +9,19 @@ const messageSchema = new Schema(
             ref: "Chat",
             required: true
         },
-        senderId: {
-            type: Number, 
-            required: true
+        sender:{
+            id:{
+                type:Number,
+                required:true
+            },
+            name:{
+                type: String,
+                required:true
+            },
+            avatar:{
+                type: String,
+                required:true
+            },
         },
         content: {
             type: String,
@@ -25,8 +35,38 @@ const messageSchema = new Schema(
             type: String 
         },
         status: {
-            deliveredTo: [Number], 
-            seenBy: [Number]
+            deliveredTo: [
+            {
+                id:{
+                    type:Number,
+                    required:true
+                },
+                name:{
+                    type: String,
+                    required:true
+                },
+                avatar:{
+                    type: String,
+                    required:true
+                }
+            }
+        ], 
+            seenBy: [
+                {
+                id:{
+                    type:Number,
+                    required:true
+                },
+                name:{
+                    type: String,
+                    required:true
+                },
+                avatar:{
+                    type: String,
+                    required:true
+                }
+            }
+            ]
         }
     },
     {
