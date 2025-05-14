@@ -15,7 +15,7 @@ exports.getMessages=async(req,res,next)=>{
         const data=messages.map(m=>{
             return{
                 id:m._id,
-                senderId:m.senderId,
+                sender:m.sender,
                 content:m.content,
                 status:m.status,
                 createdAt:m.createdAt
@@ -58,7 +58,7 @@ exports.getOldestMessages=async(req,res,next)=>{
         const data=olderMessages.map(m=>{
             return{
                 id:m._id,
-                senderId:m.senderId,
+                sender:m.sender,
                 content:m.content,
                 status:m.status,
                 createdAt:m.createdAt

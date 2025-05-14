@@ -9,8 +9,7 @@ const chatController=require("../controllers/chat")
 const messageController=require("../controllers/messages")
 
 
-//TODO:api middleware
-router.post("/add",chatController.addStudent)
+router.post("/add",api,chatController.addStudent)
 router.get("/group",api,chatController.getGroup)
 router.get("/group/detials",api,chatController.getGroupDetails)
 router.get("/messages",api,messageController.getMessages)
