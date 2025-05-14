@@ -19,8 +19,17 @@ exports.msgSeen=async(socket,{messageId})=>{
             $addToSet:{"status.seenBy":user}
         })
         const message=await Message.findById(messageId)
-        socket.emit("message-seen-success", {message});
-        socket.to(chatId).emit("message-seen-success",{message})
+        const mappedMsg={
+            id:message._id,
+            sender:message.sender,
+            content:message.content,
+            status:message.status,
+            createdAt:message.createdAt
+        }
+        socket.emit("message-seen-success", {message:"fetched successfully",
+            data:mappedMsg});
+        socket.to(chatId).emit("message-seen-success",{message:"fetched successfully",
+            data:mappedMsg})
     } catch (error) {
         socket.emit("message-seen-error",{
             message:error.message
