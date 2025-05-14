@@ -19,8 +19,17 @@ exports.msgDelivered=async(socket,{messageId})=>{
             $addToSet:{"status.deliveredTo":user}
         })
         const message=await Message.findById(messageId)
-        socket.emit("message-deliveredTo-success", {message});
-        socket.to(chatId).emit("message-deliveredTo-success",{message})
+        const mappedMsg={
+            id:message._id,
+            sender:message.sender,
+            content:message.content,
+            status:message.status,
+            createdAt:message.createdAt
+        }
+        socket.emit("message-deliveredTo-success", {message:"fetched successfully",
+            data:mappedMsg});
+        socket.to(chatId).emit("message-deliveredTo-success",{message:"fetched successfully",
+            data:mappedMsg})
     } catch (error) {
         socket.emit("message-deliveredTo-error",{
             message:error.message

@@ -21,8 +21,19 @@ exports.sendmessage=async(socket,{text})=>{
             content:text,
         })
         await message.save()
-        socket.to(chatId).emit("recieve-message",{message})
-        socket.emit("recieve-message",{message})
+        const mappedMsg={
+            id:message._id,
+            sender:message.sender,
+            content:message.content,
+            status:message.status,
+            createdAt:message.createdAt
+        }
+        socket.to(chatId).emit("recieve-message",{
+            message:"fetched successfully",
+            data:mappedMsg
+        })
+        socket.emit("recieve-message",{message:"fetched successfully",
+            data:mappedMsg})
     } catch (error) {
         socket.emit("send-message-error",{
             message:error.message
