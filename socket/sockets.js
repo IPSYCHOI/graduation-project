@@ -2,6 +2,7 @@ const {registerUser}=require("./handelers/registerUser")
 const {sendmessage}=require("./handelers/sendMessage")
 const {msgDelivered}=require("./handelers/messageDelivered")
 const {msgSeen}=require("./handelers/messageSeen")
+const {openChat}=require("./handelers/openChat")
 exports.socketsConf=(io)=>{
 
     io.on("connection",(socket)=>{
@@ -15,6 +16,8 @@ exports.socketsConf=(io)=>{
         socket.on("Message-Delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
         
         socket.on("Message-Seen",async({messageId})=>{await msgSeen (socket,{messageId})})
+
+        socket.on("Open-Chat",async()=>{await openChat(socket)})
         
         socket.on("disconnect",()=>{
             console.log("disconnected")
