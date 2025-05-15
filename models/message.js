@@ -37,6 +37,7 @@ const messageSchema = new Schema(
         status: {
             deliveredTo: [
             {
+                _id:false,
                 id:{
                     type:Number,
                     required:true
@@ -53,6 +54,7 @@ const messageSchema = new Schema(
         ], 
             seenBy: [
                 {
+                _id:false,
                 id:{
                     type:Number,
                     required:true
