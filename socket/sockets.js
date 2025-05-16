@@ -4,6 +4,8 @@ const {msgDelivered}=require("./handelers/messageDelivered")
 const {msgSeen}=require("./handelers/messageSeen")
 const {openChat}=require("./handelers/openChat")
 const {unSeen}=require("./handelers/unSeen")
+const {typing} = require("./handelers/typing")
+const { stopTyping } = require("./handelers/stopTyping")
 exports.socketsConf=(io)=>{
 
     io.on("connection",(socket)=>{
@@ -21,6 +23,10 @@ exports.socketsConf=(io)=>{
         socket.on("Open-Chat",async()=>{await openChat(socket)})
 
         socket.on("Un-Seen",async()=>{await unSeen(socket)})
+        
+        socket.on("Typing",async({type})=>{await typing(socket,{type})})
+        
+        socket.on("Stop-Typing",async()=>{await stopTyping(socket)})
         
         socket.on("disconnect",()=>{
             console.log("disconnected")
