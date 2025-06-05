@@ -1,5 +1,7 @@
+const Chat = require("../../models/chat")
 const Message=require("../../models/message")
-exports.sendmessage=async(socket,{text})=>{
+const {unSeen}=require("./unSeen")
+exports.sendmessage=async(socket,{text},io)=>{
     const chatId=socket.chatId
     const userId=socket.apiData.data.id
     const name = socket.apiData.data.name
@@ -8,7 +10,7 @@ exports.sendmessage=async(socket,{text})=>{
         return socket.emit("send-message-error",{
             message:"no chatId Register first"
         })
-    }
+    }   
     const sender={
         id:userId,
         name,
@@ -28,12 +30,18 @@ exports.sendmessage=async(socket,{text})=>{
             status:message.status,
             createdAt:message.createdAt
         }
+        await unSeen(socket)
         socket.to(chatId).emit("recieve-message",{
             message:"fetched successfully",
             data:mappedMsg
         })
         socket.emit("recieve-message",{message:"fetched successfully",
-            data:mappedMsg})
+            data:mappedMsg
+        })
+        const allChatSockets=await io.in(chatId).fetchSockets()
+        for(s of allChatSockets){
+            unSeen(s)
+        }
     } catch (error) {
         socket.emit("send-message-error",{
             message:error.message
