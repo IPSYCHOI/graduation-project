@@ -24,6 +24,7 @@ exports.msgDelivered=async(socket,{messageId})=>{
             sender:message.sender,
             content:message.content,
             status:message.status,
+            replyTo:message.messageReplyId,
             createdAt:message.createdAt
         }
         socket.emit("message-deliveredTo-success", {message:"fetched successfully",

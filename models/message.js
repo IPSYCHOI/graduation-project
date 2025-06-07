@@ -69,6 +69,10 @@ const messageSchema = new Schema(
                 }
             }
             ]
+        },
+        messageReplyId:{
+            type:Schema.Types.ObjectId,
+            ref:'Message',
         }
     },
     {
