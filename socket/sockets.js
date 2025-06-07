@@ -14,7 +14,7 @@ exports.socketsConf=(io)=>{
 
         socket.on("User-Register",async()=>{await registerUser(socket)})
         
-        socket.on("Send-Message",async({text})=>{await sendmessage(socket,{text},io)})
+        socket.on("Send-Message",async({text,replyTo=null})=>{await sendmessage(socket,{text,replyTo},io)})
         
         socket.on("Message-Delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
         

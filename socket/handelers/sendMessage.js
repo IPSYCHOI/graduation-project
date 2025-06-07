@@ -1,7 +1,6 @@
-const Chat = require("../../models/chat")
 const Message=require("../../models/message")
 const {unSeen}=require("./unSeen")
-exports.sendmessage=async(socket,{text},io)=>{
+exports.sendmessage=async(socket,{text,replyTo},io)=>{
     const chatId=socket.chatId
     const userId=socket.apiData.data.id
     const name = socket.apiData.data.name
@@ -10,7 +9,7 @@ exports.sendmessage=async(socket,{text},io)=>{
         return socket.emit("send-message-error",{
             message:"no chatId Register first"
         })
-    }   
+    }
     const sender={
         id:userId,
         name,
@@ -21,6 +20,7 @@ exports.sendmessage=async(socket,{text},io)=>{
             chatId,
             sender,
             content:text,
+            messageReplyId:replyTo
         })
         await message.save()
         const mappedMsg={
@@ -28,6 +28,7 @@ exports.sendmessage=async(socket,{text},io)=>{
             sender:message.sender,
             content:message.content,
             status:message.status,
+            replyTo:message.messageReplyId,
             createdAt:message.createdAt
         }
         await unSeen(socket)
