@@ -38,7 +38,6 @@ const add=async(req,res,next)=>{
         .then((answer)=>{
             return{answer,question}
         })
-        
     })
     .then(({answer,question})=>{
         question.answers.push(answer._id)
