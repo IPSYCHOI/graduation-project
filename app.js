@@ -29,6 +29,7 @@ const {socketsConf}=require("./socket/sockets")
 const {socketAuth}=require("./middlewares/socketAuth")
 
 const io = new Server(server, {
+  maxHttpBufferSize: 50 * 1024 * 1024,
     cors: {
       origin: '*',
       methods: ['GET', 'POST']
@@ -40,12 +41,13 @@ socketsConf(io)
 
 app.use(cookieParser())
 
-app.use(bodyBarser.json({limit:"10mb"}))
+app.use(bodyBarser.json({limit:"50mb"}))
 
 app.use(cors)
 
 app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
+
 
 dbconnect()
 

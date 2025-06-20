@@ -5,3 +5,4 @@
 .env
 blabl.md
 ssl/
+config/gpchat-c3daf-firebase-adminsdk-*.json

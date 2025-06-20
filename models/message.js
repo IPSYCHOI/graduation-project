@@ -28,12 +28,20 @@ const messageSchema = new Schema(
         },
         messageType: {
             type: String,
-            enum: ["text", "image", "file","voice"],
-            default: "text"
+            enum: ["text", "voice", "mediaOnly"],
+            required: true
         },
-        fileUrl: {
-            type: String 
-        },
+        attachments: [
+        {
+            _id:false,
+            fileUrl: String,
+            fileType: {
+                type: String,
+                enum: ["image", "video", "file", "voice"]
+            },
+            name:String
+        }
+    ],
         status: {
             deliveredTo: [
             {
