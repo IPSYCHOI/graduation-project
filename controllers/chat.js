@@ -29,7 +29,6 @@ exports.addStudent=async(req,res,next)=>{
             isAdmin:true
         }
     }
-    
     try {
         const chat= await Chat.findOne({year,department})
         if(!chat){
