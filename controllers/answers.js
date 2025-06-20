@@ -32,7 +32,6 @@ const add=async(req,res,next)=>{
                 department
             },
             questionId,
-            
         })
         return answer.save()
         .then((answer)=>{
