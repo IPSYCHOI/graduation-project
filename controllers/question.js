@@ -187,6 +187,11 @@ const like=(req,res,next)=>{
     })
 
 }
+const MethodsHandling=(req,res,next)=>{
+    res.status(405).json({ message: `${req.method} not allowed on /questions/add` });
+}
+
+exports.MethodsHandling=MethodsHandling
 exports.add=add
 exports.getAll=getAll
 exports.like=like
