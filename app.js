@@ -2,6 +2,7 @@ require("dotenv").config()
 
 const express = require("express")
 
+const ppRouter = require("./routers/ppRouter")
 const app =express()
 
 const http=require("http")
@@ -16,9 +17,9 @@ const cookieParser = require("cookie-parser");
 
 const {dbconnect}=require("./config/dbconnect")
 
-const questionRouters=require("./routes/questions")
+const questionRouters=require("./routers/questions")
 
-const chatRouters=require("./routes/chat")
+const chatRouters=require("./routers/chat")
 
 const {cors}=require("./middlewares/cors")
 
