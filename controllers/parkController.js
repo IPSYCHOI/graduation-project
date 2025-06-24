@@ -24,8 +24,19 @@ exports.create = async(req, res, next) => {
     })
 };
 
-exports.getAll = (req, res, next) => {
-    // TODO: implement get all logic
+exports.getAll = async(req, res, next) => {
+    const allSpots=await Park.find({})
+    const spots=allSpots.map(s=>{
+        return{
+            id:s._id,
+            spotState:s.spotState,
+            spotNumber:s.spotNumber
+        }
+    })
+    res.status(200).json({
+        message:"All spots fetched",
+        data:spots
+    })
 };
 
 exports.getOne = (req, res, next) => {
@@ -33,7 +44,7 @@ exports.getOne = (req, res, next) => {
 };
 
 exports.update = async(req, res, next) => {
-        const spotState= req.query.spotState 
+    const spotState= req.query.spotState 
     const spotNumber= req.query.spotNum
     if(!spotState||!spotNumber){
         return res.status(404).json({
@@ -46,10 +57,28 @@ exports.update = async(req, res, next) => {
             message:"cant find the spot"
         })
     }
-    await Park.updateOne
+    await Park.updateOne({spotNumber},{$set:{spotState}})
+    res.status(201).json({
+        message:`Spot with number ${spotNumber} now ${spotState}`
+    })
 
 };
 
-exports.remove = (req, res, next) => {
-    // TODO: implement remove logic
+exports.remove = async(req, res, next) => {
+    const spotNumber= req.query.spotNum
+    if(!spotNumber){
+        return res.status(404).json({
+            message:" Spot Number required"
+        })
+    }
+    const spotExist= await Park.findOne({spotNumber:spotNumber})
+    if(!spotExist){
+        return res.status(404).json({
+            message:"cant find the spot"
+        })
+    }
+    await Park.findOneAndDelete({spotNumber})
+    res.status(200).json({
+        message:`spot with number ${spotNumber} deleted successfully`
+    })
 };

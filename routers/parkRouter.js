@@ -12,9 +12,9 @@ router.get('/', parkController.getAll);
 router.get('/:id', parkController.getOne);
 
 // Update
-router.put('/update', parkController.update);
+router.post('/update', parkController.update);
 
 // Delete
-router.delete('/:id', parkController.remove);
+router.post('/delete', parkController.remove);
 
 module.exports = router;

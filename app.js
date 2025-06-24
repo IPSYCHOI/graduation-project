@@ -48,7 +48,7 @@ app.use(cors)
 
 app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
-app.use('/park', parkRouter)
+app.use('/parking', parkRouter)
 
 
 dbconnect()
