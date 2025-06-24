@@ -2,7 +2,7 @@ require("dotenv").config()
 
 const express = require("express")
 
-const ppRouter = require("./routers/ppRouter")
+const parkRouter = require("./routers/parkRouter")
 const app =express()
 
 const http=require("http")
@@ -48,6 +48,7 @@ app.use(cors)
 
 app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
+app.use('/park', parkRouter)
 
 
 dbconnect()
@@ -56,3 +57,4 @@ dbconnect()
     server.listen(process.env.PORT,() => console.log("🚀 Server running on port 443"))
 })
 app.use(errorHandler)
+
