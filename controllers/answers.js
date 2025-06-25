@@ -72,6 +72,7 @@ const getQuestion=(req,res,next)=>{
             .populate({
                 path:"answers",
                 options:{
+                    sort: { createdAt: -1 },
                     skip:(currentPage-1)*perPage,
                     limit:perPage
                 }
