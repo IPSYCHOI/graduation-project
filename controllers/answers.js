@@ -72,7 +72,6 @@ const getQuestion=(req,res,next)=>{
             .populate({
                 path:"answers",
                 options:{
-                    sort: { createdAt: -1 },
                     skip:(currentPage-1)*perPage,
                     limit:perPage
                 }
@@ -89,6 +88,7 @@ const getQuestion=(req,res,next)=>{
         }
     })
     .then((question)=>{
+        question.answers.sort((a, b) => b.likes.length - a.likes.length);
         question.answers.map(a=>{
             index=a.likes.indexOf(userId)
             if(index!== -1){
