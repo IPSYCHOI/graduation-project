@@ -65,7 +65,7 @@ const getAll=(req,res,next)=>{
                 $addFields:{likesCount:{$size:"$likes"}}
             },
             {
-                $sort:{likesCount: -1}
+                $sort:{createdAt: -1}
             },
             {
                 $skip:(currentPage-1)*perPage
