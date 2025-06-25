@@ -49,7 +49,7 @@ const getAll=(req,res,next)=>{
         filter["user.semester"]=parseInt(semester)
     }
     if(myQuestions){
-        filter["user.id"]=myQuestions
+        filter["user.id"]=userId
     }
     if(search){
         filter["$text"]={$search:search}
