@@ -40,13 +40,16 @@ const getAll=(req,res,next)=>{
     const userId=req.apiData.data.id
     let totalQuestions
     let index
-    const { department, semester ,likes,search} = req.query
+    const { department, semester ,likes,myQuestions,search} = req.query
     let filter={}
     if(department){
         filter["user.department"]=department
     }
     if(semester){
         filter["user.semester"]=parseInt(semester)
+    }
+    if(myQuestions){
+        filter["user.id"]=myQuestions
     }
     if(search){
         filter["$text"]={$search:search}
@@ -103,6 +106,7 @@ const getAll=(req,res,next)=>{
             likes:q.likes.length,
             views:q.views.length,
             user:{
+                id:q.user.id,
                 name:q.user.name,
                 avatar:q.user.avatar,
                 semester:q.user.semester,

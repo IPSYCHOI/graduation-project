@@ -105,6 +105,7 @@ const getQuestion=(req,res,next)=>{
                 body:question.body,
                 imageUrl:question.imageUrl,
                 user:{
+                    id:question.user.id,
                     name:question.user.name,
                     avatar:question.user.avatar,
                     semester:question.user.semester,
@@ -118,6 +119,7 @@ const getQuestion=(req,res,next)=>{
                 imageUrl:a.imageUrl,
                 likes:a.likes.length,
                 user:{
+                    id:a.user.id,
                     name:a.user.name,
                     avatar:a.user.avatar,
                     semester:a.user.semester,
