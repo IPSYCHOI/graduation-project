@@ -89,7 +89,8 @@ const getQuestion=async(req,res,next)=>{
                     department:qu.user.department,
                 },
                 createdAt:qu.createdAt
-            }
+            },
+            answers:[]
                 },
                 totalAnswers
             })
