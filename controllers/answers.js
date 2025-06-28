@@ -51,31 +51,51 @@ const add=async(req,res,next)=>{
         next(err)
     })
 }
-const getQuestion=(req,res,next)=>{
+const getQuestion=async(req,res,next)=>{
     const questionId=req.params.questionId
     const currentPage= req.query.page || 1
     const perPage=10
     const userId=req.apiData.data.id
     let index
     let totalAnswers
-    Answer.countDocuments({questionId})
-    .then(count=>{
-        totalAnswers=count
-        if(count==0){
-            return res.status(206).json({
-                message:"no answers found",
-                data:[],
-                totalAnswers
-            })
-        }else{
-            return Question.findById(questionId)
-            .populate({
+    const qu= await Question.findById(questionId).populate({
                 path:"answers",
                 options:{
                     skip:(currentPage-1)*perPage,
                     limit:perPage
                 }
             })
+    if(!qu){
+        return res.status(404).json({
+            message:"No Question found !"
+        })
+    }
+    Answer.countDocuments({questionId})
+    .then(count=>{
+        totalAnswers=count
+        if(count==0){
+              res.status(206).json({
+                message:"no answers found",
+                data:{
+                question:{
+                _id:qu._id,
+                body:qu.body,
+                imageUrl:qu.imageUrl,
+                user:{
+                    id:qu.user.id,
+                    name:qu.user.name,
+                    avatar:qu.user.avatar,
+                    semester:qu.user.semester,
+                    department:qu.user.department,
+                },
+                createdAt:qu.createdAt
+            }
+                },
+                totalAnswers
+            })
+            return Promise.reject(null)
+        }else{
+            return qu
         }
     })
     .then((question)=>{
@@ -86,7 +106,7 @@ const getQuestion=(req,res,next)=>{
         }else{
             return question
         }
-    })
+    })  
     .then((question)=>{
         question.answers.sort((a, b) => b.likes.length - a.likes.length);
         question.answers.map(a=>{
