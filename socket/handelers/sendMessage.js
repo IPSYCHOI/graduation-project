@@ -1,6 +1,7 @@
 const Message=require("../../models/message")
 const {unSeen}=require("./unSeen")
 const {uploadBase64} = require("../../config/cloudinary")
+const {notify} =require("../../notifications/notify")
 exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     const chatId=socket.chatId
     const userId=socket.apiData.data.id
@@ -93,6 +94,7 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         for(s of allChatSockets){
             unSeen(s)
         }
+        
     } catch (error) {
         socket.emit("send-message-error",{
             message:error.message
