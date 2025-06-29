@@ -57,7 +57,7 @@ jobs:
       - name: Create serviceAccountKey.json from FIREBASE_SECRETS
         run: |
           mkdir -p notification/firebase
-          echo "${{ secrets.FIREBASE_SECRETS }}" | base64 -d > notification/firebase/serviceAccountKey.json
+          echo "${{ secrets.FIREBASE_SECRETS }}" | base64 -d >> notification/firebase/serviceAccountKey.json
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
