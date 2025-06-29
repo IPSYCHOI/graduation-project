@@ -1,7 +1,7 @@
-exports.chatTemplate = (senderName, data) => {
+exports.chatTemplate = (data) => {
 	return {
 		notification: {
-			title: `You have a new message from ${senderName} `,
+			title: `You have a new message from ${data.senderName} `,
 			body:
 				data.type == "text"
 					? data.content

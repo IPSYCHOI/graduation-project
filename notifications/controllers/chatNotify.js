@@ -1,8 +1,8 @@
 const {chatTemplate}=require("../templates/chat")
 const {sendToMany}=require("../services/sendToMany")
 
-exports.sendChatNotification=async(senderName,data,tokens)=>{
-    const template =chatTemplate(senderName,data)
+exports.sendChatNotification=async(tokens,data)=>{
+    const template =chatTemplate(data)
     const sender=await sendToMany(tokens,template)
     return sender
 }
