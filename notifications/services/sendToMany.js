@@ -8,7 +8,6 @@ exports.sendToMany=async(tokens,payload)=>{
                 data:payload.data
             }
             await admin.messaging().send(message)
-
         }
     } catch (error) {
         throw error
