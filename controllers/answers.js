@@ -7,7 +7,7 @@ const add=async(req,res,next)=>{
     const questionId=req.params.questionId
     const id=req.apiData.data.id
     const avatar=req.apiData.data.avatar
-    const semester=req.apiData.data.semester.id
+    const semester=req.apiData.data.semester.id || null
     const name=req.apiData.data.name
     const department=req.apiData.data.department.name
     let imageUrl
@@ -56,6 +56,7 @@ const getQuestion=async(req,res,next)=>{
     const currentPage= req.query.page || 1
     const perPage=10
     const userId=req.apiData.data.id
+
     let index
     let totalAnswers
     const qu= await Question.findById(questionId).populate({
