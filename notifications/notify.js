@@ -1,7 +1,7 @@
-const chatNotify=require("./controllers/chatNotify")
+const {sendChatNotification}=require("./controllers/chatNotify")
 exports.notify=async(tokens,data,type)=>{
     switch (type) {
         case "chat":
-            return chatNotify(tokens,data)
+            return sendChatNotification(tokens,data)
     }
 }
