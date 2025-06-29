@@ -5,4 +5,4 @@
 .env
 blabl.md
 ssl/
-/notifications/firebase/grad-proj-doctor-firebase-adminsdk-fbsvc-6831608397.json
+/notifications/firebase/serviceAccountKey.json
