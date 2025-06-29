@@ -1,4 +1,4 @@
-const cloudinary=require("../config/cloudinary")
+const {cloudinary}=require("../config/cloudinary")
 let imageUrl
 exports.storeImage=async(file)=>{
     const cloudinaryRes=await cloudinary.uploader.upload(file)        
