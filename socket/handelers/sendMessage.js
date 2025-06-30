@@ -94,7 +94,7 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         })
         const allChatSockets=await io.in(chatId).fetchSockets()
         for(s of allChatSockets){
-            unSeen(s)
+            await unSeen(s)
         }
         const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
         const nData={

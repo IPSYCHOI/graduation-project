@@ -1,5 +1,7 @@
 const Message=require("../../models/message")
 const {onlineIds}=require("./openChatMap")
+const {unSeen}=require("./unSeen")
+
 exports.openChat=async(socket)=>{
     const chatId = socket.chatId
     const userId=socket.apiData.data.id
@@ -41,6 +43,7 @@ exports.openChat=async(socket)=>{
             sender:userObj
         })
         onlineIds.get(chatId).push(userId)
+        await unSeen(socket)
     }catch (error) {
         socket.emit("open-chat-error",{
             message:error.message
