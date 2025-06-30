@@ -1,9 +1,11 @@
 const Message=require("../../models/message")
+exports.ids=[]
 exports.openChat=async(socket)=>{
     const chatId = socket.chatId
     const userId=socket.apiData.data.id
     const name = socket.apiData.data.name
     const avatar = socket.apiData.data.avatar
+    const ids=exports.ids
     if(!socket.chatId){
         return socket.emit("open-chat-error",{
             message:"no chatId Register first"
@@ -32,6 +34,7 @@ exports.openChat=async(socket)=>{
         socket.emit("open-chat-success", {
                 message: "All messages marked as delivered and seen"
         });
+        ids.push(userId)
     }catch (error) {
         socket.emit("open-chat-error",{
             message:error.message

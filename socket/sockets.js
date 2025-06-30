@@ -3,6 +3,7 @@ const {sendmessage}=require("./handelers/sendMessage")
 const {msgDelivered}=require("./handelers/messageDelivered")
 const {msgSeen}=require("./handelers/messageSeen")
 const {openChat}=require("./handelers/openChat")
+const {closeChat}=require("./handelers/closeChat")
 const {unSeen}=require("./handelers/unSeen")
 const {typing} = require("./handelers/typing")
 const { stopTyping } = require("./handelers/stopTyping")
@@ -21,6 +22,8 @@ exports.socketsConf=(io)=>{
         socket.on("Message-Seen",async({messageId})=>{await msgSeen (socket,{messageId})})
 
         socket.on("Open-Chat",async()=>{await openChat(socket)})
+
+        socket.on("Close-Chat",async()=>{await closeChat(socket)})
 
         socket.on("Un-Seen",async()=>{await unSeen(socket)})
         
