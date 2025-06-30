@@ -19,4 +19,12 @@ router.get("/messages/old/:lastMessageId",api,methodH("get"),messageController.g
 //dev mood
 router.post("/addchat",methodH("post"),chatController.addChat)
 
+//gassy
+
+//TODO: Add user to chat  & ass admin
+//TODO: DEL user form chat 
+//TODO: upgrade users & delete chat msgs
+
+
+
 module.exports=router

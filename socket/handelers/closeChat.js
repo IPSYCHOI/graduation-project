@@ -13,6 +13,6 @@ exports.closeChat=async(socket)=>{
         onlineIds.get(chatId).splice(index,1)
     }
     socket.emit("close-chat-success",{
-        message:"user disconnected"
+        message:"user disconnected ys fuckin"
     })
 }
