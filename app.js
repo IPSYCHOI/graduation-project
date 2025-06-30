@@ -21,6 +21,8 @@ const questionRouters=require("./routers/questions")
 
 const notificationRouter=require("./routers/notificationRouter")
 
+const usersRouter=require("./routers/userRouter")
+
 const chatRouters=require("./routers/chat")
 
 const {cors}=require("./middlewares/cors")
@@ -52,6 +54,7 @@ app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
 app.use('/parking', parkRouter)
 app.use('/notification', notificationRouter)
+app.use('/users', usersRouter)
 
 
 dbconnect()
