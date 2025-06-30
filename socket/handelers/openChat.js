@@ -34,6 +34,10 @@ exports.openChat=async(socket)=>{
         socket.emit("open-chat-success", {
                 message: "All messages marked as delivered and seen"
         });
+        socket.to(chatId).emit("open-chat-info",{
+            message:"New User open the fuckin chat",
+            sender:userObj
+        })
         ids.push(userId)
     }catch (error) {
         socket.emit("open-chat-error",{
