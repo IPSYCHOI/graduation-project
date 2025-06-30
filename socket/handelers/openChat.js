@@ -1,11 +1,13 @@
 const Message=require("../../models/message")
-exports.ids=[]
+const {onlineIds}=require("./openChatMap")
 exports.openChat=async(socket)=>{
     const chatId = socket.chatId
     const userId=socket.apiData.data.id
     const name = socket.apiData.data.name
     const avatar = socket.apiData.data.avatar
-    const ids=exports.ids
+    if(!onlineIds.has(chatId)){
+        onlineIds.set(chatId,[])
+    }
     if(!socket.chatId){
         return socket.emit("open-chat-error",{
             message:"no chatId Register first"
@@ -38,7 +40,7 @@ exports.openChat=async(socket)=>{
             message:"New User open the fuckin chat",
             sender:userObj
         })
-        ids.push(userId)
+        onlineIds.get(chatId).push(userId)
     }catch (error) {
         socket.emit("open-chat-error",{
             message:error.message

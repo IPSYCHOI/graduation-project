@@ -3,7 +3,7 @@ const {unSeen}=require("./unSeen")
 const {uploadBase64} = require("../../config/cloudinary")
 const {notify} =require("../../notifications/notify")
 const {getTokens}=require("../../utils/getChatTokens")
-const {ids}=require("../handelers/openChat")
+const {onlineIds}=require("./openChatMap")
 exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     const chatId=socket.chatId
     const userId=socket.apiData.data.id
@@ -96,7 +96,7 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         for(s of allChatSockets){
             unSeen(s)
         }
-        const tokens= await getTokens(chatId,userId,ids)
+        const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
         const nData={
             senderName:name,
             type:messageType,
