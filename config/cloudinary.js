@@ -22,7 +22,8 @@ async function uploadBase64(base64String) {
         {
           folder: "messages",
           resource_type: "auto",
-          chunk_size: 6000000
+          chunk_size: 6000000,
+          type: "upload"
         },
         (error, result) => error ? reject(error) : resolve(result)
       );
