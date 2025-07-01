@@ -100,13 +100,13 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         for(s of allChatSockets){
             await unSeen(s)
         }
-        // const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
-        // const nData={
-        //     senderName:name,
-        //     type:messageType,
-        //     content:text
-        // }
-        // await notify(tokens,nData,"chat")
+        const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
+        const nData={
+            senderName:name,
+            type:messageType,
+            content:text
+        }
+        await notify(tokens,nData,"chat")
     } catch (error) {
         console.log(error)
         socket.emit("send-message-error",{
