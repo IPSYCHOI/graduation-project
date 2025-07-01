@@ -43,7 +43,7 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     let attArray=[]
     if(attachments){
         for(const att of attachments) {
-            const result=""
+            let result
             let attType="file"
             if(att.type==="file"){
                  result = await uploadBase64(att.base64,"raw");
