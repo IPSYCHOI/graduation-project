@@ -1,5 +1,7 @@
 const Answer=require("../models/answer")
 const Question=require("../models/question")
+const { notify } = require("../notifications/notify")
+const { getTokens } = require("../utils/getFcmTokens")
 const {storeImage}=require("../utils/storeImage")
 const add=async(req,res,next)=>{
     const body=req.body.body
@@ -11,6 +13,8 @@ const add=async(req,res,next)=>{
     const name=req.apiData.data.name
     const department=req.apiData.data.department.name
     let imageUrl
+    let finalAnswer
+    let questionUserId
     Question.findById(questionId)
     .then(async(question)=>{
         if(!question){
@@ -18,6 +22,7 @@ const add=async(req,res,next)=>{
             error.status=404
             throw error
         }
+        questionUserId=question.user.id
         if(file){
             imageUrl=await storeImage(file)
         }
@@ -35,6 +40,7 @@ const add=async(req,res,next)=>{
         })
         return answer.save()
         .then((answer)=>{
+            finalAnswer=answer
             return{answer,question}
         })
     })
@@ -47,6 +53,14 @@ const add=async(req,res,next)=>{
             message:"new answer added!"
         })
     })
+    const words=finalAnswer.body.split(/\s+/).slice(0, 5).join(' ');
+    const dataBody = words + (finalAnswer.body.split(/\s+/).length > 5 ? "..." : "");
+    const data={
+        senderName:finalAnswer.user.id,
+        body:dataBody
+    }
+    const tokens=getTokens([questionUserId])
+    notify(tokens,data,"answer")
     .catch(err=>{
         next(err)
     })

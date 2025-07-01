@@ -7,7 +7,6 @@ const {sysToken}=require("../middlewares/sysToken")
 router.post('/save',api,notificationController.save);
 router.post('/announ',sysToken,notificationController.announ)
 
-//TODO: Ann Route => body => ids Array , type=Anal , senderName, body
 
 
 module.exports = router;

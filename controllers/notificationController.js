@@ -25,6 +25,9 @@ exports.announ=async(req,res,next)=>{
         body
     }
     await notify(tokens,data,type)
+    res.status(200).json({
+        message:"done ya gassy"
+    })
     
 }
 

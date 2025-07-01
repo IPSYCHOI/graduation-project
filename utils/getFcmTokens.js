@@ -5,5 +5,5 @@ exports.getTokens=async(ids)=>{
             userId:{$in:ids},
             fcmToken:{$ne:null}
     })
-    return tokens
+    return tokens.map(t=>t.fcmToken)
 }
