@@ -100,6 +100,9 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         for(s of allChatSockets){
             await unSeen(s)
         }
+        if(!onlineIds.has(chatId)){
+            onlineIds.set(chatId,[])
+        }
         const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
         const nData={
             senderName:name,
