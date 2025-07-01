@@ -53,14 +53,18 @@ const add=async(req,res,next)=>{
             message:"new answer added!"
         })
     })
-    const words=finalAnswer.body.split(/\s+/).slice(0, 5).join(' ');
-    const dataBody = words + (finalAnswer.body.split(/\s+/).length > 5 ? "..." : "");
-    const data={
-        senderName:finalAnswer.user.id,
-        body:dataBody
-    }
-    const tokens=getTokens([questionUserId])
-    notify(tokens,data,"answer")
+    .then(async()=>{
+        const words=finalAnswer.body.split(/\s+/).slice(0, 5).join(' ');
+        const dataBody = words + (finalAnswer.body.split(/\s+/).length > 5 ? "..." : "");
+        const data={
+            senderName:finalAnswer.user.name,
+            body:dataBody
+        }
+        const ids=[]
+        ids.push(questionUserId)
+        const tokens=await getTokens(ids)
+        notify(tokens,data,"answer")
+    })
     .catch(err=>{
         next(err)
     })
