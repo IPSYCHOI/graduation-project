@@ -16,12 +16,14 @@ async function uploadBase64(base64String) {
     const readableStream = new Readable();
     readableStream.push(buffer);
     readableStream.push(null); 
-
+        const resourceType = ["jpg", "jpeg", "png", "webp", "gif", "bmp","mp4", "mov", "avi", "mkv", "webm","mp3", "ogg", "wav", "m4a"].includes(format.toLowerCase())
+      ? "raw"
+      : "auto";
     return new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: "messages",
-          resource_type: "auto",
+          resource_type: resourceType,
           chunk_size: 6000000,
           type: "upload"
         },
