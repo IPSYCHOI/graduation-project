@@ -47,8 +47,12 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
 
             const result = await uploadBase64(att.base64);
            
-            if(result.resource_type==="image")attType="image"
-            if(result.resource_type==="video")attType="video"
+            if (["jpg", "jpeg", "png", "webp", "gif", "bmp"].includes(result.format)) {
+                attType = "image";
+            }
+            else if (["mp4", "mov", "avi", "mkv", "webm"].includes(result.format)) {
+                attType = "video";
+            }
             if(["mp3", "ogg", "wav", "m4a"].includes(result.format)){
                 attType="voice"
                 hasVoice=true
@@ -96,14 +100,15 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
         for(s of allChatSockets){
             await unSeen(s)
         }
-        const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
-        const nData={
-            senderName:name,
-            type:messageType,
-            content:text
-        }
-        await notify(tokens,nData,"chat")
+        // const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
+        // const nData={
+        //     senderName:name,
+        //     type:messageType,
+        //     content:text
+        // }
+        // await notify(tokens,nData,"chat")
     } catch (error) {
+        console.log(error)
         socket.emit("send-message-error",{
             message:error.message
         })
