@@ -23,6 +23,8 @@ exports.msgSeen=async(socket,{messageId})=>{
             id:message._id,
             sender:message.sender,
             content:message.content,
+            attachments:message.attachments,
+            messageType:message.messageType,
             status:message.status,
             replyTo:message.messageReplyId,
             createdAt:message.createdAt

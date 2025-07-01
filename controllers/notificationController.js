@@ -16,6 +16,7 @@ exports.save = async(req, res, next) => {
 };
 
 exports.announ=async(req,res,next)=>{
-    // const {ids,senderName,}
+    const {ids,senderName,body,type}=req.body
+    
 }
 
