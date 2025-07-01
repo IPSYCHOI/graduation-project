@@ -1,7 +1,8 @@
 const Notification=require("../models/notificationModel")
 
 exports.save = async(req, res, next) => {
-    const {token,userId,platform}=req.body
+    const {token,platform}=req.body
+    const userId=req.apiData.data.id
     try {
         await Notification.updateOne(
             {userId,platform},
