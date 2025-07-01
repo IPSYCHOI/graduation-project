@@ -46,7 +46,8 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
             let result
             let attType="file"
             if(att.type==="file"){
-                 result = await uploadBase64(att.base64,"raw");
+                result = await uploadBase64(att.base64,att.name);
+                attArray.push({fileUrl:att.base64,fileType:attType,name:att.name||null})
             }else{
                 result = await uploadBase64(att.base64);
                
@@ -61,9 +62,9 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
                     hasVoice=true
                     messageType="voice"
                 }
+                attArray.push({fileUrl:result.secure_url,fileType:attType,name:att.name||null})
             }
             
-            attArray.push({fileUrl:result.secure_url,fileType:attType,name:att.name||null})
         }
     }
 
