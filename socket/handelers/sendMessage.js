@@ -43,20 +43,24 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     let attArray=[]
     if(attachments){
         for(const att of attachments) {
+            const result=""
             let attType="file"
-
-            const result = await uploadBase64(att.base64);
-           
-            if (["jpg", "jpeg", "png", "webp", "gif", "bmp"].includes(result.format)) {
-                attType = "image";
-            }
-            else if (["mp4", "mov", "avi", "mkv", "webm"].includes(result.format)) {
-                attType = "video";
-            }
-            if(["mp3", "ogg", "wav", "m4a"].includes(result.format)){
-                attType="voice"
-                hasVoice=true
-                messageType="voice"
+            if(att.type==="file"){
+                 result = await uploadBase64(att.base64,"raw");
+            }else{
+                result = await uploadBase64(att.base64);
+               
+                if (["jpg", "jpeg", "png", "webp", "gif", "bmp"].includes(result.format)) {
+                    attType = "image";
+                }
+                else if (["mp4", "mov", "avi", "mkv", "webm"].includes(result.format)) {
+                    attType = "video";
+                }
+                if(["mp3", "ogg", "wav", "m4a"].includes(result.format)){
+                    attType="voice"
+                    hasVoice=true
+                    messageType="voice"
+                }
             }
             
             attArray.push({fileUrl:result.secure_url,fileType:attType,name:att.name||null})
