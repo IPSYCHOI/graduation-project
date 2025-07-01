@@ -17,6 +17,8 @@ exports.getMessages=async(req,res,next)=>{
                 id:m._id,
                 sender:m.sender,
                 content:m.content,
+                attachments:m.attachments,
+                messageType:m.messageType,
                 status:m.status,
                 replyTo:m.messageReplyId,
                 createdAt:m.createdAt
@@ -61,6 +63,8 @@ exports.getOldestMessages=async(req,res,next)=>{
                 id:m._id,
                 sender:m.sender,
                 content:m.content,
+                attachments:m.attachments,
+                messageType:m.messageType,
                 status:m.status,
                 replyTo:m.messageReplyId,
                 createdAt:m.createdAt
