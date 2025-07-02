@@ -24,9 +24,8 @@ router.post("/addchat",sysToken,methodH("post"),chatController.addChat)
 
 //gassy
 
-//TODO: update chat info
-//TODO: Add user to chat  & ass admin with code from gassy
-//TODO: DEL user form chat 
+
+//TODO: Add user to chat  & ass admin & DEL user form chat =>with code from gassy
 //TODO: upgrade users & delete chat msgs
 
 

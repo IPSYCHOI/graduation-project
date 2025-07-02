@@ -122,6 +122,11 @@ exports.updateChat=async(req,res,next)=>{
     const {name , imageBase64,chatId}=req.body
     let result
     let imageUrl
+    if(!chatId){
+        return res.status(400).json({
+            message:"chatId must be provided"
+        })
+    }
     if(!(name||imageBase64)){
         return res.status(400).json({
             message:"name or image Base64 must be provided"
@@ -141,12 +146,12 @@ exports.updateChat=async(req,res,next)=>{
         ...(imageUrl?{imageUrl}:{})
         
     }
-    console.log(updatedObject)
-    // await Chat.updateOne({_id:chatId},
-    //     {
-    //         $set:{
-    //             name:name,
-    //         }
-    //     }
-    // )
+    await Chat.updateOne({_id:chatId},
+        {
+            $set:updatedObject
+        }
+    )
+    res.status(200).json({
+        message:"updated"
+    })
 }
