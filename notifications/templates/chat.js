@@ -13,7 +13,7 @@ exports.chatTemplate = (data) => {
             type:"chat",
 			chatId:data.chatId,
 			chatName:data.chatName,
-			imageUrl:data.imageUrl??null
+			imageUrl:data.imageUrl??''
         }
 	};
 };
