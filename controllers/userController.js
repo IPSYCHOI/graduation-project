@@ -8,7 +8,7 @@ exports.update = async(req, res, next) => {
     
     const updatedUser={
         "user.name":userObject.name,
-        "user.avatar":userObject.avatar,
+        "user.avatar":`https://${userObject.avatar}`,
         "user.semester":userObject.semester.id,
         "user.department":userObject.department.name,
     }
@@ -20,7 +20,7 @@ exports.update = async(req, res, next) => {
             {
                 $set:{
                     "users.$[user].name":userObject.name,
-                    "users.$[user].avatar":userObject.avatar,
+                    "users.$[user].avatar":`https://${userObject.avatar}`,
                 }
             },
             {arrayFilters:[{"user.userId":userObject.id}]}

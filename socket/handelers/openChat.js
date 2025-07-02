@@ -18,7 +18,7 @@ exports.openChat=async(socket)=>{
     const userObj={
         id:userId,
         name,
-        avatar
+        avatar:`https://${avatar}`
     }
     try {
         await Message.updateMany({

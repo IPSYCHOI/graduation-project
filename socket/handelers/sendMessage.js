@@ -72,7 +72,7 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     const sender={
         id:userId,
         name,
-        avatar
+        avatar:`https://${avatar}`
     }
     try {
         const message=new Message({

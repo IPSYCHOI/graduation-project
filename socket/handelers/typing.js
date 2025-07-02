@@ -11,7 +11,7 @@ exports.typing=async(socket,{type})=>{
     const userObj={
         id:userId,
         name,
-        avatar
+        avatar:`https://${avatar}`
     }
     try {
         socket.to(chatId).emit("typing-success",{

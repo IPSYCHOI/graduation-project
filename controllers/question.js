@@ -19,7 +19,7 @@ const add=async(req,res,next)=>{
         user:{
             id,
             name,
-            avatar,
+            avatar:`https://${avatar}`,
             semester,
             department
         }

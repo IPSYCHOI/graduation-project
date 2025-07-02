@@ -12,7 +12,7 @@ exports.msgSeen=async(socket,{messageId})=>{
     const user={
         id:userId,
         name,
-        avatar
+        avatar:`https://${avatar}`
     }
     try {
         await Message.findByIdAndUpdate(messageId,{
