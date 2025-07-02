@@ -12,8 +12,8 @@ exports.chatTemplate = (data) => {
         data:{
             type:"chat",
 			chatId:data.chatId,
-			chatName:data.chatName,
-			imageUrl:data.imageUrl
+			chatName:data.chatName
+			/*imageUrl:data.imageUrl*/
         }
 	};
 };

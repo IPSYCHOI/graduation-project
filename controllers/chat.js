@@ -109,9 +109,18 @@ exports.addChat=async(req,res,next)=>{
             department
         })
         await newChat.save()
-        res.send("done")
+        res.status(200).json({
+            chat:newChat
+        })
     } catch (error) {
         next(error)
     }  
 }
-
+exports.updateChat=async(req,res,next)=>{
+    const superAdmin=req.apiData.data
+    if(superAdmin.type!=="Super admin"){
+        return res.status(401).json({
+            message:"Your are not authorized to do that action"
+        })
+    }
+}
