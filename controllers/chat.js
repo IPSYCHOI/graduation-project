@@ -118,28 +118,30 @@ exports.addChat=async(req,res,next)=>{
     }  
 }
 exports.updateChat=async(req,res,next)=>{
-    // const superAdmin=req.apiData.data
-    // const {name , imageBase64,chatId}=req.body
-    // let result
-    // let imageUrl
-    // if(!(name&&imageBase64)){
-    //     return res.status(400).json({
-    //         message:"name or image Base64 must be provided"
-    //     })
-    // }
-    // if(superAdmin.type!=="Super admin"){
-    //     return res.status(401).json({
-    //         message:"Your are not authorized to do that action"
-    //     })
-    // }
-    // if(imageBase64){
-    //     result = await uploadBase64(imageBase64)
-    //     imageUrl=result.secure_url
-    // }
-    // const updatedObject={
-    //     name,
-    //     imageUrl
-    // }
+    const superAdmin=req.apiData.data
+    const {name , imageBase64,chatId}=req.body
+    let result
+    let imageUrl
+    if(!(name||imageBase64)){
+        return res.status(400).json({
+            message:"name or image Base64 must be provided"
+        })
+    }
+    if(superAdmin.type!=="Super admin"){
+        return res.status(401).json({
+            message:"Your are not authorized to do that action"
+        })
+    }
+    if(imageBase64){
+        result = await uploadBase64(imageBase64)
+        imageUrl=result.secure_url
+    }
+    const updatedObject={
+        ...(name?{name}:{}),
+        ...(imageUrl?{imageUrl}:{})
+        
+    }
+    console.log(updatedObject)
     // await Chat.updateOne({_id:chatId},
     //     {
     //         $set:{

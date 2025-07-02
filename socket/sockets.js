@@ -17,7 +17,7 @@ exports.socketsConf=(io)=>{
         
         socket.on("Send-Message",async({text=null,replyTo=null,attachments=null})=>{await sendmessage(socket,{text,replyTo,attachments},io)})
         
-        socket.on("Message-Delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
+        //socket.on("Message-Delivered",async({messageId})=>{await msgDelivered (socket,{messageId})})
         
         socket.on("Message-Seen",async({messageId})=>{await msgSeen (socket,{messageId})})
 
