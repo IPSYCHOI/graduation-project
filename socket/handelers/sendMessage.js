@@ -4,6 +4,7 @@ const {uploadBase64} = require("../../config/cloudinary")
 const {notify} =require("../../notifications/notify")
 const {getTokens}=require("../../utils/getChatTokens")
 const {onlineIds}=require("./openChatMap")
+const Chat=require("../../models/chat")
 exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
     const chatId=socket.chatId
     const userId=socket.apiData.data.id
@@ -109,10 +110,14 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
             onlineIds.set(chatId,[])
         }
         const tokens= await getTokens(chatId,userId,onlineIds.get(chatId))
+        const chat = await Chat.findById(chatId)
         const nData={
             senderName:name,
             type:messageType,
-            content:text
+            content:text,
+            chatId,
+            chatName:chat.name,
+            imageUrl:chat.imageUrl
         }
         await notify(tokens,nData,"chat")
     } catch (error) {

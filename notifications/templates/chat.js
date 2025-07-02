@@ -10,7 +10,10 @@ exports.chatTemplate = (data) => {
 					: "This message contains files",
 		},
         data:{
-            type:"chat"
+            type:"chat",
+			chatId:data.chatId,
+			chatName:data.chatName,
+			imageUrl:data.imageUrl
         }
 	};
 };
