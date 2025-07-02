@@ -61,9 +61,11 @@ const add=async(req,res,next)=>{
             body:dataBody
         }
         const ids=[]
-        ids.push(questionUserId)
-        const tokens=await getTokens(ids)
-        notify(tokens,data,"answer")
+        if(questionUserId!=finalAnswer.user.id){
+            ids.push(questionUserId)
+            const tokens=await getTokens(ids)
+            notify(tokens,data,"answer")
+        }
     })
     .catch(err=>{
         next(err)
