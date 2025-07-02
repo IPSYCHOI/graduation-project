@@ -20,13 +20,13 @@ exports.addStudent=async(req,res,next)=>{
         userObject={
             userId,
             name,
-            avatar
+            avatar:`https://${avatar}`
         }
     }else{
         userObject={
             userId,
             name,
-            avatar,
+            avatar:`https://${avatar}`,
             isAdmin:true
         }
     }
