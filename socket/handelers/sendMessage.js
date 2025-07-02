@@ -94,7 +94,6 @@ exports.sendmessage=async(socket,{text=null,replyTo,attachments=null},io)=>{
             replyTo:message.messageReplyId,
             createdAt:message.createdAt
         }
-        await unSeen(socket)
         socket.to(chatId).emit("recieve-message",{
             message:"fetched successfully",
             data:mappedMsg
