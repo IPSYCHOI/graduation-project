@@ -31,8 +31,8 @@ exports.msgDelivered=async(socket,{messageId})=>{
         }
         socket.emit("message-deliveredTo-success", {message:"fetched successfully",
             data:mappedMsg});
-        socket.to(chatId).emit("message-deliveredToAll-success",{message:"fetched successfully to all",
-            data:mappedMsg})
+        // socket.to(chatId).emit("message-deliveredToAll-success",{message:"fetched successfully to all",
+        //     data:mappedMsg})
     } catch (error) {
         socket.emit("message-deliveredTo-error",{
             message:error.message

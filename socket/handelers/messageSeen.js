@@ -31,8 +31,8 @@ exports.msgSeen=async(socket,{messageId})=>{
         }
         socket.emit("message-seen-success", {message:"fetched successfully",
             data:mappedMsg});
-        socket.to(chatId).emit("message-seen-success",{message:"fetched successfully",
-            data:mappedMsg})
+        // socket.to(chatId).emit("message-seen-success",{message:"fetched successfully",
+        //     data:mappedMsg})
     } catch (error) {
         socket.emit("message-seen-error",{
             message:error.message
