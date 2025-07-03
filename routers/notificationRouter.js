@@ -5,6 +5,7 @@ const {api}=require("../middlewares/fetchApi")
 const {sysToken}=require("../middlewares/sysToken")
 
 router.post('/save',api,notificationController.save);
+router.delete('/remove',api,notificationController.remove);
 router.post('/announ',sysToken,notificationController.announ)
 
 

@@ -24,10 +24,24 @@ exports.announ=async(req,res,next)=>{
         senderName,
         body
     }
-    await notify(tokens,data,type)
-    res.status(200).json({
-        message:"done ya gassy"
-    })
+    try {
+        await notify(tokens,data,type)
+        res.status(200).json({
+            message:"done ya gassy"
+        })
+    } catch (error) {
+        next(error)
+    }
     
 }
-
+exports.remove=async(req,res,next)=>{
+    const token = req.body.token
+    if(!token)
+        return res.status(400).json({message:"No token provided"})
+    try {
+        await Notification.deleteOne({fcmToken:token})
+        res.status(200).json({message:"Deleted successfully"})
+    } catch (error) {
+        next(error)        
+    }
+}
