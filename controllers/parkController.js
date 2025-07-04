@@ -48,7 +48,7 @@ exports.getAll = async(req, res, next) => {
 };
 exports.update = async(req, res, next) => {
     const spotState= req.body.spotState 
-    const sn= req.body.spotNum
+    const sn= req.body.spotName
     const spotNumber=parseInt(sn)
     if(!spotState||!spotNumber){
         return res.status(404).json({
