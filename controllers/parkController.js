@@ -47,8 +47,9 @@ exports.getAll = async(req, res, next) => {
     }
 };
 exports.update = async(req, res, next) => {
-    const spotState= req.query.spotState 
-    const spotNumber= req.query.spotNum
+    const spotState= req.body.spotState 
+    const sn= req.body.spotNum
+    const spotNumber=parseInt(sn)
     if(!spotState||!spotNumber){
         return res.status(404).json({
             message:"Spot State and Spot Number required"
