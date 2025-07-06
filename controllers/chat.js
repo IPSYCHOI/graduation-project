@@ -3,38 +3,28 @@ const Chat=require("../models/chat")
 const {uploadBase64}=require("../config/cloudinary")
 
 exports.addStudent=async(req,res,next)=>{
-    const userId=req.apiData.data.id
-    const semester=req.apiData.data.semester.id
-    const department=req.apiData.data.department.id
-    const name = req.apiData.data.name
-    const avatar = req.apiData.data.avatar
-    const type=req.body.type
-    if(!(type)){
-        return res.status(400).json({
-            message:"please provide type"
-        })
+    const isAdmin=req.body.isAdmin
+    const user=req.user
+    const year=calc_year(user.semester.id)
+    const department=user.department.id
+    const userObject={
+        userId:user.id,
+        name:user.name,
+        avatar:`https://${user.avatar}`,
+        ...(isAdmin ? { isAdmin: true } : {})
     }
-    const year=calc_year(semester)
-    let userObject
-    if(type==="Student"){
-        userObject={
-            userId,
-            name,
-            avatar:`https://${avatar}`
-        }
-    }else{
-        userObject={
-            userId,
-            name,
-            avatar:`https://${avatar}`,
-            isAdmin:true
-        }
-    }
+    
     try {
         const chat= await Chat.findOne({year,department})
         if(!chat){
             return res.status(404).json({
                 message:"There is no chat found"
+            })
+        }
+        const existUser=chat.users.some(u=>u.userId===userObject.userId)
+        if(existUser){
+            return res.status(409).json({
+                message:"That user already exist"
             })
         }
         chat.users.push(userObject)
