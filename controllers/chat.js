@@ -7,8 +7,8 @@ exports.addStudent=async(req,res,next)=>{
     const semesterT=req.body.sn
     const user=req.user
     let semester
-    if(user.semester.id){
-        semester=user.semester.id
+    if(user.semester?.id){
+        semester=user.semester?.id
     }else{
         semester=semesterT
     }
