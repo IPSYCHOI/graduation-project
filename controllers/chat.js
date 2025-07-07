@@ -4,8 +4,15 @@ const {uploadBase64}=require("../config/cloudinary")
 
 exports.addStudent=async(req,res,next)=>{
     const isAdmin=req.body.isAdmin
+    const semesterT=req.body.sn
     const user=req.user
-    const year=calc_year(user.semester.id)
+    let semester
+    if(user.semester.id){
+        semester=user.semester.id
+    }else{
+        semester=semesterT
+    }
+    const year=calc_year(semester)
     const department=user.department.id
     const userObject={
         userId:user.id,
