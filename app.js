@@ -33,6 +33,7 @@ const {socketsConf}=require("./socket/sockets")
 
 const {socketAuth}=require("./middlewares/socketAuth")
 
+app.use(cors)
 const io = new Server(server, {
   maxHttpBufferSize: 50 * 1024 * 1024,
     cors: {
@@ -48,7 +49,6 @@ app.use(cookieParser())
 
 app.use(bodyBarser.json({limit:"50mb"}))
 
-app.use(cors)
 
 app.use("/chat",chatRouters)
 app.use("/questions",questionRouters)
