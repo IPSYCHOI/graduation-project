@@ -37,7 +37,7 @@ const io = new Server(server, {
   maxHttpBufferSize: 50 * 1024 * 1024,
     cors: {
       origin: '*',
-      methods: ['GET', 'POST']
+      methods: ['GET', 'POST',"PUT","DELETE"]
     }
 })
 io.use(socketAuth)
