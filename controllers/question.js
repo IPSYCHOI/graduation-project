@@ -8,7 +8,7 @@ const add=async(req,res,next)=>{
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester.id
     const name=req.apiData.data.name
-    const department=req.apiData.data.department.name
+    const department=req.apiData.data.department
     let imageUrl
     if(file){
         imageUrl=await storeImage(file)
@@ -43,7 +43,7 @@ const getAll=(req,res,next)=>{
     const { department, semester ,likes,myQuestions,search} = req.query
     let filter={}
     if(department){
-        filter["user.department"]=department
+        filter["user.department.id"]=parseInt(department)
     }
     if(semester){
         filter["user.semester"]=parseInt(semester)

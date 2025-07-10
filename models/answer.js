@@ -26,7 +26,7 @@ const answerSchema=new Schema({
             type:Number
         },
         department:{
-            type:String
+            type:Object
         },
         liked:{
             type:Boolean

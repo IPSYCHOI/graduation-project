@@ -11,7 +11,7 @@ const add=async(req,res,next)=>{
     const avatar=req.apiData.data.avatar
     const semester=req.apiData.data.semester?.id || null
     const name=req.apiData.data.name
-    const department=req.apiData.data.department.name
+    const department=req.apiData.data.department
     let imageUrl
     let finalAnswer
     let questionUserId
@@ -257,4 +257,3 @@ exports.add=add
 exports.like=like
 exports.getQuestion=getQuestion
 exports.deleteanswer=deleteanswer
-//nvcxzcvbjkl;
